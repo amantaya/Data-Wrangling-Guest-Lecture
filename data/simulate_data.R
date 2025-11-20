@@ -2,15 +2,15 @@ set.seed(123)
 
 # function to generate unique cow IDs
 generate_ids <- function(n) {
-    prefix <- sample(LETTERS, n, replace = TRUE)
-    digits <- sample(0:9999, n, replace = FALSE)
-    ids <- paste0(prefix, digits)
+  prefix <- sample(LETTERS, n, replace = TRUE)
+  digits <- sample(0:9999, n, replace = FALSE)
+  ids <- paste0(prefix, digits)
 
-    if (length(unique(ids)) != n) {
-        stop("Generated IDs are not unique. Please try again.")
-    }
+  if (length(unique(ids)) != n) {
+    stop("Generated IDs are not unique. Please try again.")
+  }
 
-    return(ids)
+  ids
 }
 
 df <- data.frame(
@@ -39,7 +39,7 @@ df <- data.frame(
                        "silage",
                        "corn silage",
                        "Silage",
-                       "silge",
+                       "silge",  # this is a deliberate typo to simulate messy data
                        "corn",
                        "Corn",
                        "hay",
@@ -53,8 +53,8 @@ df <- data.frame(
 date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%dth %b %Y")
 
 df$Date <- sapply(df$Date, function(d) {
-    format_choice <- sample(date_formats, 1)
-    format(as.Date(d), format_choice)
+  format_choice <- sample(date_formats, 1)
+  format(as.Date(d), format_choice)
 })
 
 # Introduce some missing values
