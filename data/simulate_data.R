@@ -14,23 +14,23 @@ generate_ids <- function(n) {
 }
 
 df <- data.frame(
-  cow_ID = generate_ids(100),
+  cow_ID = generate_ids(500),
   Date = sample(
                 seq(
                     as.Date("2024-01-01"),
                     as.Date("2024-12-31"),
                     by = "day"),
-                size = 100,
+                size = 500,
                 replace = TRUE),
   milk_L = round(
                  rnorm(
-                       100,
+                       500,
                        mean = 30,
                        sd = 5),
                  digit = 2),
   feed_kg = round(
                   rnorm(
-                        100,
+                        500,
                         mean = 20,
                         sd = 3),
                   1),
@@ -59,9 +59,9 @@ df$Date <- sapply(df$Date, function(d) {
 
 # Introduce some missing values
 set.seed(34)
-missing_indices_milk <- sample(seq_len(nrow(df)), size = 10)
+missing_indices_milk <- sample(seq_len(nrow(df)), size = 50)
 set.seed(56)
-missing_indices_feed <- sample(seq_len(nrow(df)), size = 10)
+missing_indices_feed <- sample(seq_len(nrow(df)), size = 50)
 df$milk_L[missing_indices_milk] <- NA
 df$feed_kg[missing_indices_feed] <- NA
 
