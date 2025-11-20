@@ -34,3 +34,7 @@ dplyr::glimpse(messy_data)
 
 # Best
 dlookr::diagnose(messy_data)
+
+# Visualize Messy Data ------------------------------------------------
+
+dlookr::diagnose_numeric(messy_data)
