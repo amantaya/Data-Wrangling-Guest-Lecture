@@ -13,27 +13,29 @@ generate_ids <- function(n) {
   ids
 }
 
+cow_ids <- generate_ids(80)
+
 df <- data.frame(
-  cow_ID = generate_ids(500),
+  cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
   Date = sample(
                 seq(
                     as.Date("2024-01-01"),
                     as.Date("2024-12-31"),
                     by = "day"),
-                size = 500,
+                size = 1000,
                 replace = TRUE),
   milk_L = round(
                  rnorm(
-                       500,
+                       1000,
                        mean = 30,
                        sd = 5),
                  digit = 2),
   feed_kg = round(
                   rnorm(
-                        500,
+                        1000,
                         mean = 20,
                         sd = 3),
-                  1),
+                  digit = 2),
   feed_type = sample(
                      c(
                        "silage",
@@ -45,7 +47,7 @@ df <- data.frame(
                        "hay",
                        "Hay",
                        "roughage"),
-                     size = 100,
+                     size = 1000,
                      replace = TRUE)
 )
 
@@ -59,11 +61,17 @@ df$Date <- sapply(df$Date, function(d) {
 
 # Introduce some missing values
 set.seed(34)
-missing_indices_milk <- sample(seq_len(nrow(df)), size = 50)
+missing_indices_milk <- sample(seq_len(nrow(df)), size = 100)
 set.seed(56)
-missing_indices_feed <- sample(seq_len(nrow(df)), size = 50)
+missing_indices_feed <- sample(seq_len(nrow(df)), size = 100)
 df$milk_L[missing_indices_milk] <- NA
 df$feed_kg[missing_indices_feed] <- NA
 
+# TODO: add some duplicate observations
+
+# TODO: add some outliers
+
 # Write to CSV
 write.csv(df, file = "data/milk_yield.csv", row.names = FALSE)
+
+# TODO: simulate feed_intake.csv similarly
