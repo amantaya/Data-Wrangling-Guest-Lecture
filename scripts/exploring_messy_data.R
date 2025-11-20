@@ -23,10 +23,10 @@ messy_data <- readr::read_csv(
 
 # Explore Messy Data ---------------------------------------------------
 
-# OK
+# Very limited
 print(messy_data)
 
-# Also Good
+# OK
 View(messy_data)
 
 # Better
@@ -35,6 +35,12 @@ dplyr::glimpse(messy_data)
 # Best
 dlookr::diagnose(messy_data)
 
-# Visualize Messy Data ------------------------------------------------
+# Amazing
+dlookr::diagnose_paged_report(messy_data)
 
+# Visualize Messy Data -------------------------------------------------
+dlookr::plot_bar_category(messy_data)
+
+
+# Outliers -------------------------------------------------------------
 dlookr::plot_outlier(messy_data)
