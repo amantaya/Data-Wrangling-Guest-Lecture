@@ -6,7 +6,7 @@ library("dlookr") # for data exploration
 # Load Messy Data ------------------------------------------------------
 
 # Not OK
-messy_data <- read.csv("a/very/specific/file/path/that/will/only/work/on/your/computer/milk_yield.csv")
+# messy_data <- read.csv("a/very/specific/file/path/that/will/only/work/on/your/computer/milk_yield.csv")
 
 # OK
 messy_data <- read.csv("data/milk_yield.csv")
