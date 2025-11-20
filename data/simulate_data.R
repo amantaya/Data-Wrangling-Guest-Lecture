@@ -59,9 +59,9 @@ df$Date <- sapply(df$Date, function(d) {
 
 # Introduce some missing values
 set.seed(34)
-missing_indices_milk <- sample(1:nrow(df), size = 10)
+missing_indices_milk <- sample(seq_len(nrow(df)), size = 10)
 set.seed(56)
-missing_indices_feed <- sample(1:nrow(df), size = 10)
+missing_indices_feed <- sample(seq_len(nrow(df)), size = 10)
 df$milk_L[missing_indices_milk] <- NA
 df$feed_kg[missing_indices_feed] <- NA
 
