@@ -1,0 +1,3 @@
+# ignore renv library and staging
+renv/library
+renv/staging
