@@ -37,4 +37,4 @@ dlookr::diagnose(messy_data)
 
 # Visualize Messy Data ------------------------------------------------
 
-dlookr::diagnose_numeric(messy_data)
+dlookr::plot_outlier(messy_data)
