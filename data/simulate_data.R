@@ -50,7 +50,7 @@ df <- data.frame(
 )
 
 # Introduce some messy date formats
-date_formats <- c("%Y-%m-%d", "%d/%m/%Y", "%m-%d-%Y", "%dth %b %Y")
+date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%dth %b %Y")
 
 df$Date <- sapply(df$Date, function(d) {
     format_choice <- sample(date_formats, 1)
@@ -58,7 +58,9 @@ df$Date <- sapply(df$Date, function(d) {
 })
 
 # Introduce some missing values
+set.seed(34)
 missing_indices_milk <- sample(1:nrow(df), size = 10)
+set.seed(56)
 missing_indices_feed <- sample(1:nrow(df), size = 10)
 df$milk_L[missing_indices_milk] <- NA
 df$feed_kg[missing_indices_feed] <- NA
