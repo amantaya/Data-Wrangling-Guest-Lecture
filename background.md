@@ -13,8 +13,8 @@ To further complicate matters, you have 2 undergraduate research technitians wor
 
 The undergraduate research technitians provide you with 2 files:
 
-[feed_intake.csv](data/feed_intake.csv)
-[milk_yield.csv](data/milk_yield.csv)
+[feed_intake.csv](data/raw/feed_intake.csv)
+[milk_yield.csv](data/raw/milk_yield.csv)
 
 Your job is to:
 

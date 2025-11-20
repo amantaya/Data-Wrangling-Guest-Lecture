@@ -72,6 +72,6 @@ df$feed_kg[missing_indices_feed] <- NA
 # TODO: add some outliers
 
 # Write to CSV
-write.csv(df, file = "data/milk_yield.csv", row.names = FALSE)
+write.csv(df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
 # TODO: simulate feed_intake.csv similarly
