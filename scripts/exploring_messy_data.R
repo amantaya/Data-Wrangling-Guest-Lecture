@@ -26,6 +26,9 @@ messy_data <- readr::read_csv(
 # OK
 print(messy_data)
 
+# Also Good
+View(messy_data)
+
 # Better
 dplyr::glimpse(messy_data)
 
