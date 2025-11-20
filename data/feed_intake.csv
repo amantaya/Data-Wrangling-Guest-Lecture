@@ -104,4 +104,3 @@ B215,07/31/2024,32.8,25.4,roughage
 C309,31-Jul-2024,25.0,19.7,silage
 D411,2024/08/01,28.1,22.7,corn silage
 E523,01-08-2024,29.0,22.5,hay
-# ... repeat similar patterns for 500 rows, varying cow_ID, Date, milk_L, feed_kg, feed_type
