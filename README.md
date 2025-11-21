@@ -14,12 +14,12 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 
 ```mermaid
 flowchart TD
-    A["Raw Data"] --> B["DISCOVER: Understand structure, types, distributions, issues"]
-    B --> C["STRUCTURE: Reshape (pivot/melt), reorder, index, split/merge columns"]
-    C --> D["CLEAN: Handle missing values, outliers, duplicates, incorrect types, typos"]
-    D --> E["ENRICH: Merge/join datasets, calculate new features, geocode, API calls"]
-    E --> F["VALIDATE: Run quality checks, schema validation, statistical sanity checks"]
-    F --> G["PUBLISH: Save as clean dataset (CSV, Parquet, database table, data warehouse)"]
+    A["Raw Data"] --> B["1. DISCOVER: Understand structure, types, distributions, issues"]
+    B --> C["2. STRUCTURE: Reshape (pivot/melt), reorder, index, split/merge columns"]
+    C --> D["3. CLEAN: Handle missing values, outliers, duplicates, incorrect types, typos"]
+    D --> E["4. ENRICH: Merge/join datasets, calculate new features, geocode, API calls"]
+    E --> F["5. VALIDATE: Run quality checks, schema validation, statistical sanity checks"]
+    F --> G["6. PUBLISH: Save as clean dataset (CSV, Parquet, database table, data warehouse)"]
     G --> H["Clean, Analysis-Ready Dataset"]
 
     %% Style nodes
