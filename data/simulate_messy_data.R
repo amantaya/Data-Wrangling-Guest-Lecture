@@ -52,7 +52,7 @@ df <- data.frame(
 )
 
 # Introduce some messy date formats
-date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%dth %b %Y")
+date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%d %b %Y")
 
 df$Date <- sapply(df$Date, function(d) {
   format_choice <- sample(date_formats, 1)
