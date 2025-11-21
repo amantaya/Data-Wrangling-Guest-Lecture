@@ -9,16 +9,16 @@ library("dlookr") # for data exploration
 # messy_data <- read.csv("a/very/specific/file/path/that/will/only/work/on/your/computer/milk_yield.csv")
 
 # OK
-messy_data <- read.csv("data/milk_yield.csv")
+messy_data <- read.csv("data/milk_yield.csv") # class: data.frame
 
 # Better
 messy_data <- read_csv(
-  file.path("data", "milk_yield.csv")
+  file.path("data", "milk_yield.csv") # class: tibble
 )
 
 # Best
 messy_data <- readr::read_csv(
-  here::here("data", "milk_yield.csv")
+  here::here("data", "milk_yield.csv") # class: tibble
 )
 
 # Explore Messy Data ---------------------------------------------------
