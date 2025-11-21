@@ -10,10 +10,6 @@ In this two-part workshop, we will be learning how to perform data wrangling on 
 
 Data wrangling is a key aspect of the scientific process, and one that you must learn to master to take your messy data and turn them into interpretable results.
 
-### Data Wrangling Flowchart
-
-<img src="docs/data-wrangling-flowchart.jpg" alt="Data Wrangling Flowchart" width="50%" />[^1]
-
 ### The 6 Steps of Data Wrangling
 
 ```mermaid
