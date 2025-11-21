@@ -12,7 +12,7 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 
 ### Data Wrangling Flowchart
 
-![Data Wrangling Flowchart](docs/data-wrangling-flowchart.jpg)[^1]
+<img src="docs/data-wrangling-flowchart.jpg" alt="Data Wrangling Flowchart" width="50%" />[^1]
 
 ### The 6 Steps of Data Wrangling
 
