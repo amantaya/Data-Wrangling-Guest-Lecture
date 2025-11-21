@@ -30,6 +30,13 @@ df <- data.frame(
                        mean = 30,
                        sd = 5),
                  digit = 2),
+  fat_percent = round(
+                      rnorm(
+                            1000,
+                            mean = 3.5,
+                            sd = 0.5),
+                      digit = 2),
+  # TODO: move to separate feed_intake.csv
   feed_kg = round(
                   rnorm(
                         1000,
@@ -52,6 +59,8 @@ df <- data.frame(
                      size = 1000,
                      replace = TRUE)
 )
+
+# TODO: introduce some negative values
 
 # Introduce some messy date formats
 date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%d %b %Y")
