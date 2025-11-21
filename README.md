@@ -16,34 +16,15 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 
 ### The 6 Steps of Data Wrangling
 
-```markdown
-[Raw Data]
-    ↓
-1. **DISCOVER**
-    _Understand structure, types, distributions, issues_
-
-    ↓
-2. **STRUCTURE**
-    _Reshape (pivot/melt), reorder, index, split/merge columns_
-
-    ↓
-3. **CLEAN**
-    _Handle missing values, outliers, duplicates, incorrect types, typos_
-
-    ↓
-4. **ENRICH**
-    _Merge/join datasets, calculate new features, geocode, API calls_
-
-    ↓
-5. **VALIDATE**
-    _Run quality checks, schema validation, statistical sanity checks_
-
-    ↓
-6. **PUBLISH**
-    _Save as clean dataset (CSV, Parquet, database table, data warehouse)_
-
-    ↓
-[Clean, Analysis-Ready Dataset][^1]
+```mermaid
+flowchart TD
+    A[Raw Data] --> B[DISCOVER<br/><i>Understand structure, types, distributions, issues</i>]
+    B --> C[STRUCTURE<br/><i>Reshape (pivot/melt), reorder, index, split/merge columns</i>]
+    C --> D[CLEAN<br/><i>Handle missing values, outliers, duplicates, incorrect types, typos</i>]
+    D --> E[ENRICH<br/><i>Merge/join datasets, calculate new features, geocode, API calls</i>]
+    E --> F[VALIDATE<br/><i>Run quality checks, schema validation, statistical sanity checks</i>]
+    F --> G[PUBLISH<br/><i>Save as clean dataset (CSV, Parquet, database table, data warehouse)</i>]
+    G --> H[Clean, Analysis-Ready Dataset][^1]
 ```
 
 ## About This Workshop
