@@ -16,35 +16,35 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 
 ### The 6 Steps of Data Wrangling
 
+```
 [Raw Data]
+    ↓
+1. **DISCOVER**
+    _Understand structure, types, distributions, issues_
 
     ↓
+2. **STRUCTURE**
+    _Reshape (pivot/melt), reorder, index, split/merge columns_
 
-1. DISCOVER → Understand structure, types, distributions, issues
+    ↓
+3. **CLEAN**
+    _Handle missing values, outliers, duplicates, incorrect types, typos_
 
-                                ↓
+    ↓
+4. **ENRICH**
+    _Merge/join datasets, calculate new features, geocode, API calls_
 
-2. STRUCTURE → Reshape (pivot/melt), reorder, index, split/merge columns
+    ↓
+5. **VALIDATE**
+    _Run quality checks, schema validation, statistical sanity checks_
 
-                                ↓
+    ↓
+6. **PUBLISH**
+    _Save as clean dataset (CSV, Parquet, database table, data warehouse)_
 
-3. CLEAN → Handle missing values, outliers, duplicates, incorrect types, typos
-
-                                ↓
-
-4. ENRICH → Merge/join datasets, calculate new features, geocode, API calls
-
-                                ↓
-
-5. VALIDATE → Run quality checks, schema validation, statistical sanity checks
-
-                                ↓
-
-6. PUBLISH → Save as clean dataset (CSV, Parquet, database table, data warehouse)
-
-                                ↓
-
+    ↓
 [Clean, Analysis-Ready Dataset][^1]
+```
 
 ## About This Workshop
 
