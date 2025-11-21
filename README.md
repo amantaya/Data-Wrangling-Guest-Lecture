@@ -17,7 +17,9 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 ### The 6 Steps of Data Wrangling
 
 [Raw Data]
+
     ↓
+
 1. DISCOVER → Understand structure, types, distributions, issues
 
                                 ↓
