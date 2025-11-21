@@ -1,6 +1,6 @@
 library("readr") # for read_csv
 library("dplyr") # for glimpse and pipe operator
-library("here") # for reproducible file path management
+library("here") # for file path management
 library("dlookr") # for data exploration
 
 # Load Messy Data ------------------------------------------------------
@@ -23,7 +23,7 @@ messy_data <- readr::read_csv(
 
 # Explore Messy Data ---------------------------------------------------
 
-# Very limited
+# Not Great
 print(messy_data)
 
 # OK
@@ -39,8 +39,9 @@ dlookr::diagnose(messy_data)
 dlookr::diagnose_paged_report(messy_data)
 
 # Visualize Messy Data -------------------------------------------------
+
 dlookr::plot_bar_category(messy_data)
 
-
 # Outliers -------------------------------------------------------------
+
 dlookr::plot_outlier(messy_data)
