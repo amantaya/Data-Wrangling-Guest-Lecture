@@ -47,10 +47,4 @@ dlookr::diagnose(messy_data)
 # Amazing - paged report for easier navigation
 dlookr::diagnose_paged_report(messy_data)
 
-# Visualize Messy Data -------------------------------------------------
-
-dlookr::plot_bar_category(messy_data)
-
-# Outliers -------------------------------------------------------------
-
-dlookr::plot_outlier(messy_data)
+# Exercise 1: Based on your exploration, list at least 5 specific data quality issues you identified in the messy dataset.
