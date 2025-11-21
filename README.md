@@ -16,7 +16,7 @@ Please note that the data provided in this workshop is simulated data (i.e., not
 
 ## Learning Objectives
 
- - Inspect real-world messy data
- - Identify what needs to be fixed
- - Join multiple data sets
- - Use simple statistics to interpret data
+- Inspect real-world messy data
+- Identify what needs to be fixed
+- Join multiple data sets
+- Use simple statistics to interpret data
