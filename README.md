@@ -19,17 +19,24 @@ Data wrangling is a key aspect of the scientific process, and one that you must 
 [Raw Data]
     ↓
 1. DISCOVER → Understand structure, types, distributions, issues
+
     ↓
+
 2. STRUCTURE → Reshape (pivot/melt), reorder, index, split/merge columns
     ↓
+
 3. CLEAN → Handle missing values, outliers, duplicates, incorrect types, typos
     ↓
+
 4. ENRICH → Merge/join datasets, calculate new features, geocode, API calls
     ↓
+
 5. VALIDATE → Run quality checks, schema validation, statistical sanity checks
     ↓
+
 6. PUBLISH → Save as clean dataset (CSV, Parquet, database table, data warehouse)
     ↓
+
 [Clean, Analysis-Ready Dataset][^1]
 
 ## About This Workshop
