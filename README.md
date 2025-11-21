@@ -43,7 +43,9 @@ flowchart TD
 ## Links to Helpful Resources
 
 [R for Data Science - Chapter 9 - Data Wrangling](https://r4ds.had.co.nz/wrangle-intro.html)
+
 [Taming the Data Beast: The Art of Efficient Data Wrangling](https://www.capellasolutions.com/blog/taming-the-data-beast-the-art-of-efficient-data-wrangling)
+
 [Data Cleaning Checklist](https://www.datacamp.com/blog/infographic-data-cleaning-checklist)
 
 ## Footnotes
