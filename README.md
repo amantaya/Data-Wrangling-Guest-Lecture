@@ -21,6 +21,10 @@ flowchart TD
     E --> F["VALIDATE: Run quality checks, schema validation, statistical sanity checks"]
     F --> G["PUBLISH: Save as clean dataset (CSV, Parquet, database table, data warehouse)"]
     G --> H["Clean, Analysis-Ready Dataset"]
+
+    %% Style nodes
+    classDef desc fill:#f9f,stroke:#333,stroke-width:2px;
+    class B,C,D,E,F,G desc;
 ```
 
 [^2]
