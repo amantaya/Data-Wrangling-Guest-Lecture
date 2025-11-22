@@ -13,9 +13,13 @@ To further complicate matters, you have 2 undergraduate research technitians wor
 
 The undergraduate research technitians provide you with 2 files:
 
+[milk_yield.csv](data/raw/milk_yield.csv)
+
 [feed_intake.csv](data/raw/feed_intake.csv)
 
-[milk_yield.csv](data/raw/milk_yield.csv)
+The `milk_yield.csv` comes from an automated milking machine that records the amount of milk in liters and the fat content as a percentage every time the cow is milked.
+
+The `feed_intake.csv` is recorded by undergraduate technitians manually recording and entering data into a spreadsheet.
 
 Your job is to:
 
