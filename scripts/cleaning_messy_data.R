@@ -183,29 +183,42 @@ str(milk_df$date) # should return "POSIXct"
 # class `POSIXct` represents date-time values in R
 # it is a numeric representation of the number of seconds since January 1, 1970 aka the Unix epoch
 
-# If any dates failed to parse, they will be converted to NA
-# Let's check for any NA values in the date column
+# Handling Invalid Dates -----------------------------------------------
+
+# Sometimes, dates may be invalid (e.g., "2024-02-30" or "2024-04-31") and fail to parse correctly.
+
+# Let's check for any NA values in the date column.
+
 bad_dates <- milk_df %>%
   dplyr::filter(is.na(date))
 
 print(bad_dates) # should be empty if all dates parsed correctly
 
+# Oh no!
 # It looks like we have 5 bad dates that failed to parse
 
 # There are many ways to handle bad date values, depending on the context and your judgement.
 
-# Option 1: Manually correct bad dates in the original data if you have the correct information
+# Option 1: Manually correct bad dates in the original data if you have the correct information.
 
 # Option 2: Remove rows with bad dates
-# For this example, we will go with Option 2 and remove rows with bad dates
-
-milk_df <- milk_df %>%
-  dplyr::filter(!is.na(date))
 
 # Option 3: Impute bad dates based on other information (e.g., previous observation's date, median date, etc.)
 # This option is more advanced and requires careful consideration of the implications.
 
-# Note: our data did not include a time component, so we want to strip out the time part
+# For this example, we will go with Option 2 and remove rows with bad dates
+milk_df <- milk_df %>%
+  dplyr::filter(!is.na(date))
+
+# Verify that there are no more bad dates
+bad_dates_after <- milk_df %>%
+  dplyr::filter(is.na(date))
+
+print(bad_dates_after) # should be empty
+
+# Removing Time Component from Datetimes -------------------------------
+
+# Our original data did not include a time component, so we want to strip out the time part
 # and keep only the date.
 # This is optional but can help avoid confusion later on.
 
