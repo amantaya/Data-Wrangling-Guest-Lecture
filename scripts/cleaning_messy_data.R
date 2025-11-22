@@ -161,6 +161,9 @@ milk_df <- milk_df %>%
     )
   )
 
+# Note that a warning message may appear indicating that some dates failed to parse.
+# We will handle those invalid dates in the next section.
+
 # In the `orders` argument, we specify the possible date formats we expect to encounter.
 
 # The letter codes represent:
@@ -222,6 +225,7 @@ print(bad_dates_after) # should be empty
 # and keep only the date.
 # This is optional but can help avoid confusion later on.
 
+# Using the `as.Date()` function to convert POSIXct to Date
 milk_df <- milk_df %>%
   dplyr::mutate(
     date = as.Date(date)
@@ -232,6 +236,8 @@ dplyr::glimpse(milk_df)
 
 str(milk_df$date) # should return "Date"
 
+# Arranging Data by Date -----------------------------------------------
+
 # Data may come to you out of order. Let's sort by date.
 milk_df <- milk_df %>%
     dplyr::arrange(date)
@@ -239,3 +245,37 @@ milk_df <- milk_df %>%
 # Verify that the data is sorted by date
 print(head(milk_df, 10)) # should show the earliest dates at the top
 print(tail(milk_df, 10)) # should show the latest dates at the bottom
+
+# Verifying Column Data Types ------------------------------------------
+
+# Finally, let's verify that all column data types are appropriate
+
+dplyr::glimpse(milk_df)
+
+# Based on our exploration, the appropriate data types should be:
+# cow_id: character
+# date: Date
+# milk_liters: numeric
+# fat_percent: numeric
+
+# If any columns are not of the appropriate type, we can convert them using `mutate()` and appropriate conversion functions (e.g., `as.character()`, `as.numeric()`, etc.)
+
+# Why? Because having the correct data types is crucial for accurate analysis and prevents errors in calculations and visualizations later on.
+
+# For example, if `milk_liters` was read in as character, we would not be able to perform numerical operations on it until we convert it to numeric.
+
+# Save Cleaned Data ----------------------------------------------------
+readr::write_csv(
+  milk_df,
+  here::here("data", "clean", "milk_yield_clean.csv")
+)
+
+# I prefer `readr::write_csv()` because it is faster and more consistent than base R's `write.csv()`
+# However, `readr::write_csv()` will convert datetimes to UTC by default, which may not be desired in all cases.
+
+# OR using base R
+write.csv(
+  milk_df,
+  here::here("data", "clean", "milk_yield_clean.csv"),
+  row.names = FALSE
+)
