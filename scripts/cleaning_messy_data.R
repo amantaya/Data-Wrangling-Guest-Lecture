@@ -1,3 +1,5 @@
+# Setup ----------------------------------------------------------------
+
 library("readr") # for read_csv
 library("dplyr") # for glimpse, rename, and pipe operator
 library("here") # for file path management
@@ -11,6 +13,8 @@ library("lubridate") # for date parsing functions
 
 # This is especially helpful in teaching materials and larger projects to avoid confusion when multiple packages have functions with the same name.
 
+# Load Messy Data ------------------------------------------------------
+
 milk_df <- readr::read_csv(
   here::here("data", "raw", "milk_yield.csv")
 )
@@ -22,6 +26,8 @@ dplyr::glimpse(milk_df)
 # Pay attention to this printout!
 
 # We know from our exploration that there are several data quality issues in this dataset.
+
+# Cleaning Column Names ------------------------------------------------
 
 # First we will clean the column names to make them easier to work with.
 # Super easy way to clean column names!
@@ -40,6 +46,8 @@ milk_df <- milk_df %>%
 
 # Glimpse the data to see updated column names
 dplyr::glimpse(milk_df)
+
+# Handling Duplicate Rows ----------------------------------------------
 
 # Now let's identify and handle duplicate rows
 duplicate_rows <- janitor::get_dupes(milk_df)
@@ -67,6 +75,8 @@ milk_df <- milk_df %>%
 duplicate_rows_after <- janitor::get_dupes(milk_df)
 
 print(duplicate_rows_after) # should be empty
+
+# Handling Incomplete Observations -------------------------------------
 
 # Now we will handle incomplete observations (missing data)
 
@@ -100,6 +110,8 @@ missing_data_summary_after <- milk_df %>%
 
 print(missing_data_summary_after) # should show 0 for both columns
 
+# Handling Negative and Zero Values ------------------------------------
+
 # Based on our exploration, we know there are other data quality issues (e.g., negative values, zero values, outliers, messy date formats)
 
 # Remove rows with negative or zero values in `milk_liters` and `fat_percent`
@@ -107,12 +119,21 @@ milk_df <- milk_df %>%
     dplyr::filter(milk_liters > 0 & fat_percent > 0)
 
 # Remember in the data quality report it said "judgement" for negative and zero values?
-
 # That's because it requires your own understanding of the data and context.
-
 # It will be up to you to decide what to do with those values in your own data cleaning projects.
 
 # In this case, we are assuming negative and zero values are invalid and removing them.
+
+# Verify that there are no more negative or zero values
+negative_zero_summary <- milk_df %>%
+    dplyr::summarise(
+      negative_zero_milk = sum(milk_liters <= 0),
+      negative_zero_fat = sum(fat_percent <= 0)
+    )
+
+print(negative_zero_summary) # should show 0 for both columns
+
+# Handling Messy Date Formats ------------------------------------------
 
 # Now let's move onto messy date formats...
 
