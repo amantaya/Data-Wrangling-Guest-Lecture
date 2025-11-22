@@ -1,3 +1,5 @@
+library(tidyverse)
+
 set.seed(123)
 
 # function to generate unique cow IDs
@@ -13,9 +15,12 @@ generate_ids <- function(n) {
   ids
 }
 
+# TODO: randomly assign cows to the feed data ensuring all cow IDs in milk data are present
+# then manipulate the milk yield for cows in the `silage` treatment to have a higher yield
+
 cow_ids <- generate_ids(80)
 
-milk_milk_df <- data.frame(
+milk_df <- tibble(
   cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
   # NOTE: note the `Date` column is deliberately capitalized and students will need to
   # convert to a lowercase
@@ -46,13 +51,14 @@ milk_milk_df <- data.frame(
 
 # Negative Values ------------------------------------------------------
 
-# Introduce some negative values for `milk L` and `fat %`
+# Introduce some negative or 0 values for `milk L` and `fat %`
 set.seed(42)
-neg_indices_milk <- sample(seq_len(nrow(milk_df)), size = 20)
-milk_df$`milk L`[neg_indices_milk] <- -abs(milk_df$`milk L`[neg_indices_milk])
+# TODO: it may make more sense to make this 0 instead of negative
+zero_indices_milk <- sample(seq_len(nrow(milk_df)), size = 10)
+milk_df$`milk L`[zero_indices_milk] <- 0
 
 set.seed(43)
-neg_indices_fat <- sample(seq_len(nrow(milk_df)), size = 10)
+neg_indices_fat <- sample(seq_len(nrow(milk_df)), size = 5)
 milk_df$`fat %`[neg_indices_fat] <- -abs(milk_df$`fat %`[neg_indices_fat])
 
 # Missing Values -------------------------------------------------------
@@ -78,17 +84,25 @@ milk_df$Date <- sapply(milk_df$Date, function(d) {
 
 # Duplicate Observations -----------------------------------------------
 
-# TODO: add some duplicate observations
+# Introduce some duplicate rows
+set.seed(78)
+milk_df <- rbind(milk_df, milk_df[sample(1:nrow(milk_df), 10), ])
 
-# TODO: add some outliers
+# Outliers ------------------------------------------------------------
+
+set.seed(89)
+outlier_indices_milk <- sample(seq_len(nrow(milk_df)), size = 5)
+milk_df$`milk L`[outlier_indices_milk] <- milk_df$`milk L`[outlier_indices_milk] + 50
 
 # Write to CSV
 write.csv(milk_df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
+# End of `milk_yield.csv` Simulation -----------------------------------
+
 set.seed(123)
 
 # Simulate feed_intake.csv similarly
-feed_milk_df <- data.frame(
+feed_df <- tibble(
   # TODO: check that all of the cow ids from the milk data are in the feed data
   # the seed should be the same to ensure the same cow IDs are generated
   vid = sample(cow_ids, size = 1000, replace = TRUE),
@@ -99,13 +113,13 @@ feed_milk_df <- data.frame(
       by = "day"),
     size = 1000,
     replace = TRUE),
-  feed_kg = round(
+  `feed KG` = round(
     rnorm(
       1000,
       mean = 20,
       sd = 3),
     digit = 2),
-  feed_type = sample(
+  `feed type` = sample(
     c(
       "silage",
       " silage",
@@ -122,19 +136,23 @@ feed_milk_df <- data.frame(
     replace = TRUE)
 )
 
-# Messy date formats
-feed_milk_df$Date <- sapply(feed_milk_df$Date, function(d) {
+# Messy Date Formats ---------------------------------------------------
+
+feed_df$Date <- sapply(feed_df$Date, function(d) {
   format_choice <- sample(date_formats, 1)
   format(as.Date(d), format_choice)
 })
 
-# Missing values
+# Missing Values -------------------------------------------------------
+
 set.seed(90)
+missing_indices_feed <- sample(seq_len(nrow(feed_df)), size = 50)
+feed_df$feed_kg[missing_indices_feed] <- NA
 
-missing_indices_feed <- sample(seq_len(nrow(feed_milk_df)), size = 100)
+# Duplicate Observations -----------------------------------------------
 
-feed_milk_df$feed_kg[missing_indices_feed] <- NA
+set.seed(91)
+feed_df <- rbind(feed_df, feed_df[sample(1:nrow(feed_df),3), ])
 
 # Write to CSV
-write.csv(feed_milk_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
-
+write.csv(feed_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
