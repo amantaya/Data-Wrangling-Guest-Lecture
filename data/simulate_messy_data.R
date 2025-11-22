@@ -17,6 +17,8 @@ cow_ids <- generate_ids(80)
 
 df <- data.frame(
   cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
+  # NOTE: note the `Date` column is deliberately capitalized and students will need to
+  # convert to a lowercase
   Date = sample(
                 seq(
                     as.Date("2024-01-01"),
@@ -24,13 +26,17 @@ df <- data.frame(
                     by = "day"),
                 size = 1000,
                 replace = TRUE),
-  milk_L = round(
+  # NOTE: the `milk L` deliberately has a space and students will need to
+  # replace the space with an underscore
+  `milk L` = round(
                  rnorm(
                        1000,
                        mean = 30,
                        sd = 5),
                  digit = 2),
-  fat_percent = round(
+  # NOTE: the `fat %` column name has a special character `%`
+  # that students will need to replace with `percent`
+  `fat %` = round(
                       rnorm(
                             1000,
                             mean = 3.5,
@@ -39,6 +45,7 @@ df <- data.frame(
 )
 
 # TODO: introduce some negative values
+
 
 # Introduce some messy date formats
 date_formats <- c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%d %b %Y")
@@ -65,12 +72,14 @@ df$feed_kg[missing_indices_feed] <- NA
 # Write to CSV
 write.csv(df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
-set.seed(789)
+set.seed(123)
 
 # Simulate feed_intake.csv similarly
 feed_df <- data.frame(
-  cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
-  Date = sample(
+  # TODO: check that all of the cow ids from the milk data are in the feed data
+  # the seed should be the same to ensure the same cow IDs are generated
+  vid = sample(cow_ids, size = 1000, replace = TRUE),
+  date = sample(
     seq(
       as.Date("2024-01-01"),
       as.Date("2024-12-31"),
@@ -108,7 +117,9 @@ feed_df$Date <- sapply(feed_df$Date, function(d) {
 
 # Missing values
 set.seed(90)
+
 missing_indices_feed <- sample(seq_len(nrow(feed_df)), size = 100)
+
 feed_df$feed_kg[missing_indices_feed] <- NA
 
 # Write to CSV
