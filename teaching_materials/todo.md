@@ -20,13 +20,14 @@
 8. Remove missing observations
 9. Rename the `vid` column to `cow_id`
 10. Convert `date` column to Date class
-11. Correct inconsistencies in the 'feed_type' column
+11. Arrange `date` column in chronological order
+12. Correct inconsistencies in the 'feed_type' column
     - trim whitespace: " silage " to "silage"
     - unify variables: merge "silage" into "Silage"
     - correct typos:  "silge" to "silage"
-12. Save a clean version of the dataset to "data/clean/feed_intake_clean.csv"
+13. Validate data types in columns
+14. Save a clean version of the dataset to "data/clean/feed_intake_clean.csv"
 
 ## Combine Datasets
 
-10. Join the clean_milk_yield.csv with clean_feed_intake.csv on 'cow_id' and 'Date' to create a combined dataset for analysis.
-    - the `milk_yield.csv` uses `cow_id` as the identifier whereas the `feed_intake.csv` uses `vid` as the identifier. We will need to join on these two columns.
+15. Join the clean_milk_yield.csv with clean_feed_intake.csv on 'cow_id' and 'date' to create a combined dataset for analysis.
