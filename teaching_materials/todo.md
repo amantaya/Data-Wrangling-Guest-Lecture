@@ -10,7 +10,7 @@
     - missing values
     - negative values (where such a value is impossible)
 3. Standardize date formats in the 'Date' column to "YYYY-MM-DD".
-4. Arrange `Date` column in chronological order
+4. Arrange `date` column in chronological order
 5. Validate data types for each column (e.g., ensure `milk_liters` and `fat_percent` are numeric, `date` is Date type).
 6. Save a clean version of the dataset to "data/clean_milk_yield.csv" after cleaning is complete.
 
