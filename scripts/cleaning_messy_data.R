@@ -151,7 +151,12 @@ str(milk_df$date) # should return "POSIXct"
 # it is a numeric representation of the number of seconds since January 1, 1970
 # aka the Unix epoch
 
-# TODO: check for bad date parsing (i.e., NAs introduced by coercion)
+# If any dates failed to parse, they will be converted to NA
+# Let's check for any NA values in the date column
+bad_dates <- milk_df %>%
+  dplyr::filter(is.na(date))
+
+print(bad_dates) # should be empty if all dates parsed correctly
 
 # TODO: check for bad date values (e.g., impossible dates like February 30)
 # and handle them appropriately (e.g., remove or correct)
@@ -168,3 +173,11 @@ milk_df <- milk_df %>%
 dplyr::glimpse(milk_df)
 
 str(milk_df$date) # should return "Date"
+
+# Data may come to you out of order. Let's sort by date.
+milk_df <- milk_df %>%
+    dplyr::arrange(date)
+
+# Verify that the data is sorted by date
+print(head(milk_df, 10)) # should show the earliest dates at the top
+print(tail(milk_df, 10)) # should show the latest dates at the bottom
