@@ -1,4 +1,6 @@
 library("readr") # for read_csv
+library("dplyr") # for glimpse, rename, and pipe operator
+library("here") # for file path management
 library("janitor") # for clean_names and get_dupes
 
 # NOTE: I use the package::function() notation to be explicit about which package a function comes from.
@@ -24,3 +26,13 @@ milk_df <- janitor::clean_names(milk_df, case = "snake")
 # Glimpse the data to see updated column names
 dplyr::glimpse(milk_df)
 
+# I don't think the `milk_l` column is clear enough, so let's rename it to `milk_liters`
+
+milk_df <- milk_df %>%
+    dplyr::rename(milk_liters = milk_l)
+
+# Note: the `%>%` is the pipe operator from the `magrittr` package, which is also loaded with `dplyr`
+# You can also use `|>` which comes with base R as of R 4.1.0
+
+# Glimpse the data to see updated column names
+dplyr::glimpse(milk_df)
