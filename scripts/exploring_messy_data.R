@@ -54,3 +54,6 @@ dlookr::diagnose_paged_report(messy_data_tb)
 # Exercise 2: For each data quality issue you identified, suggest a specific data cleaning step that could address the issue.
 
 # TODO: what other `dlookr` functions should I introduce them too?
+
+# There is a fancy name for what we did here today, it's called:
+# Exploratory Data Analysis (EDA)
