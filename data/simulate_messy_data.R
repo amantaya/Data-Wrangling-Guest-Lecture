@@ -188,7 +188,7 @@ feed_df <- tibble(
 
 # Messy Date Formats ---------------------------------------------------
 
-feed_df$Date <- sapply(feed_df$date, function(d) {
+feed_df$date <- sapply(feed_df$date, function(d) {
   format_choice <- sample(date_formats, 1)
   format(as.Date(d), format_choice)
 })
