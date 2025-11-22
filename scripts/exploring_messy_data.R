@@ -50,3 +50,7 @@ dlookr::diagnose(messy_data_tb)
 dlookr::diagnose_paged_report(messy_data_tb)
 
 # Exercise 1: Based on your exploration, list at least 5 specific data quality issues you identified in the messy dataset.
+
+# Exercise 2: For each data quality issue you identified, suggest a specific data cleaning step that could address the issue.
+
+# TODO: what other `dlookr` functions should I introduce them too?
