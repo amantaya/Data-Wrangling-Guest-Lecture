@@ -265,6 +265,18 @@ dplyr::glimpse(milk_df)
 # For example, if `milk_liters` was read in as character, we would not be able to perform numerical operations on it until we convert it to numeric.
 
 # Save Cleaned Data ----------------------------------------------------
+
+# I also like to create a separate folder for clean data within the `data` directory.
+# Make sure the `data/clean/` directory exists before running this code.
+
+# Or create the directory if it doesn't exist
+if (!dir.exists(here::here("data", "clean"))) {
+  dir.create(here::here("data", "clean"), recursive = TRUE)
+}
+
+# I like to store the clean data in a separate file to preserve the original raw data.
+# also makes it easy to load the clean data for analysis later on.
+
 readr::write_csv(
   milk_df,
   here::here("data", "clean", "milk_yield_clean.csv")
