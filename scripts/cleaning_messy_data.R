@@ -2,6 +2,10 @@ library("readr") # for read_csv
 library("dplyr") # for glimpse, rename, and pipe operator
 library("here") # for file path management
 library("janitor") # for clean_names and get_dupes
+library("tidyr") # for drop_na
+library("lubridate") # for date parsing functions
+
+# library("tidylog") # this is optional but provides helpful messages when using dplyr functions. It 'masks' dplyr functions, meaning it takes precedence when both packages are loaded. I really like using this package when doing interactive data cleaning.
 
 # NOTE: I use the package::function() notation to be explicit about which package a function comes from.
 
@@ -36,3 +40,131 @@ milk_df <- milk_df %>%
 
 # Glimpse the data to see updated column names
 dplyr::glimpse(milk_df)
+
+# Now let's identify and handle duplicate rows
+duplicate_rows <- janitor::get_dupes(milk_df)
+
+# Additionally, `get_dupes()` allows you to specify specific columns to check for duplicates
+# Example: `janitor::get_dupes(milk_df, cow_id, date)`
+
+# Note: if there are no duplicate rows, `duplicate_rows` will be an empty tibble
+
+# View duplicate rows
+print(duplicate_rows)
+
+# OR
+
+# View duplicate rows in a paged viewer for easier navigation
+# Helpful if you have a lot of duplicates
+View(duplicate_rows)
+
+# In our case, it looks like we have straight-up duplicates
+# Our solution will be to keep the first observation and remove the rest
+milk_df <- milk_df %>%
+  dplyr::distinct() # keeps only unique rows
+
+# After removing duplicates, I want to verify that there are no more duplicates
+duplicate_rows_after <- janitor::get_dupes(milk_df)
+
+print(duplicate_rows_after) # should be empty
+
+# Now we will handle incomplete observations (missing data)
+
+# Let's see how much missing data we have in each column
+missing_data_summary <- milk_df %>%
+    dplyr::summarise(across(everything(), ~ sum(is.na(.))))
+
+# Don't feel overwhelmed by this special syntax! It's specific to the dplyr package.
+# The `across()` function allows us to apply a function (in this case, counting NAs) to multiple columns at once.
+
+print(missing_data_summary)
+
+# Based on our exploration, we know that the `milk_liters` and the `fat_percent` columns have some missing values.
+
+# For this example, we will remove rows with missing values in either of these columns
+
+# Using dplyr
+milk_df <- milk_df %>%
+  dplyr::filter(!is.na(milk_liters) & !is.na(fat_percent))
+
+# OR - using tidyr
+milk_df <- milk_df %>%
+  tidyr::drop_na(milk_liters, fat_percent)
+
+# OR - base R way
+milk_df <- stats::na.omit(milk_df)
+
+# Verify that there are no more missing values in these columns
+missing_data_summary_after <- milk_df %>%
+    dplyr::summarise(across(c(milk_liters, fat_percent), ~ sum(is.na(.))))
+
+print(missing_data_summary_after) # should show 0 for both columns
+
+# Based on our exploration, we know there are other data quality issues (e.g., negative values, zero values, outliers, messy date formats)
+
+# Remove rows with negative or zero values in `milk_liters` and `fat_percent`
+milk_df <- milk_df %>%
+    dplyr::filter(milk_liters > 0 & fat_percent > 0)
+
+# Remember in the data quality report it said "judgement" for negative and zero values?
+
+# That's because it requires your own understanding of the data and context.
+
+# It will be up to you to decide what to do with those values in your own data cleaning projects.
+
+# In this case, we are assuming negative and zero values are invalid and removing them.
+
+# Now let's move onto messy date formats...
+
+# Dates are special data types in R and require special handling.
+
+# Here are some common date formats we might encounter:
+
+# "2023-01-15" (YYYY-MM-DD)
+# "01/15/2023" (MM/DD/YYYY)
+# "15 Jan 2023" (DD MMM YYYY)
+# "01-15-2023" (MM-DD-YYYY)
+# "15-01-2023" (DD-MM-YYYY) for non-US formats.
+
+# If you are collecting dates from multiple sources, you might end up with a mix of these formats. It can be especially tricky if the day and month can be confused (e.g., 01-05-2023 could be January 5 or May 1). Try to get ahead of this problem by standardizing date formats at the point of data collection if possible.
+
+# If we have a mix of these formats, we need to standardize them.
+
+# Here, we will use the lubridate package which provides convenient functions for parsing dates in various formats.
+
+milk_df <- milk_df %>%
+  dplyr::mutate(
+    date = lubridate::parse_date_time(
+      date,
+      orders = c("ymd", "mdy", "dmy", "mdY", "d b Y")
+    )
+  )
+
+# Verify that the date column is now in Date format
+dplyr::glimpse(milk_df)
+
+# The `date` column should now show as `dttm` type in the glimpse output
+
+str(milk_df$date) # should return "POSIXct"
+
+# class `POSIXct` represents date-time values in R
+# it is a numeric representation of the number of seconds since January 1, 1970
+# aka the Unix epoch
+
+# TODO: check for bad date parsing (i.e., NAs introduced by coercion)
+
+# TODO: check for bad date values (e.g., impossible dates like February 30)
+# and handle them appropriately (e.g., remove or correct)
+
+# Note: our data did not include a time component, so we want to strip out the
+# time part and keep only the date.
+
+milk_df <- milk_df %>%
+  dplyr::mutate(
+    date = as.Date(date)
+  )
+
+# Verify that the date column is now in Date format without time
+dplyr::glimpse(milk_df)
+
+str(milk_df$date) # should return "Date"
