@@ -16,9 +16,12 @@
 
 ## `feed_intake.csv`
 
+7. Clean the column names
+8. Remove missing observations
+9. Rename the `vid` column to `cow_id`
+10. Convert `date` column to Date class
+8. Correct inconsistencies in the 'feed_type' column (e.g., unify "silage", "Silage", "silge" to "silage").
 8.
-Correct inconsistencies in the 'feed_type' column (e.g., unify "silage", "Silage", "silge" to "silage").
-9.
 
 ## Combine Datasets
 
