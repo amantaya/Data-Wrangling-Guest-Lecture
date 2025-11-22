@@ -46,8 +46,6 @@ milk_df <- tibble(
                       digit = 2)
 )
 
-# TODO: super sneaky and super evil: introduce invalid dates like "2024-02-30" or "2024-13-01"
-
 # Negative Values ------------------------------------------------------
 
 # Introduce some negative or 0 values for `milk L` and `fat %`
@@ -79,6 +77,22 @@ milk_df$Date <- sapply(milk_df$Date, function(d) {
   format_choice <- sample(date_formats, 1)
   format(as.Date(d), format_choice)
 })
+
+# Introduce Invalid Dates ----------------------------------------------
+
+# Super sneaky and super evil
+# Introduce invalid dates like "2024-02-30" or "2024-13-01"
+
+set.seed(45)
+
+milk_df <- milk_df %>%
+  dplyr::mutate(
+    Date = ifelse(
+      runif(nrow(milk_df)) < 0.005, # 2% chance to create an invalid date
+      sample(c("2024-02-30", "2024-13-01", "2024-00-10"), size = nrow(milk_df), replace = TRUE),
+      as.character(Date)
+    )
+  )
 
 # Duplicate Observations -----------------------------------------------
 
