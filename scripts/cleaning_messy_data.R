@@ -126,9 +126,9 @@ milk_df <- milk_df %>%
 # "01-15-2023" (MM-DD-YYYY)
 # "15-01-2023" (DD-MM-YYYY) for non-US formats.
 
-# If you are collecting dates from multiple sources, you might end up with a mix of these formats. It can be especially tricky if the day and month can be confused (e.g., 01-05-2023 could be January 5 or May 1). Try to get ahead of this problem by standardizing date formats at the point of data collection if possible.
-
 # If we have a mix of these formats, we need to standardize them.
+
+# Note: if you are collecting dates from multiple sources, you might end up with a mix of these formats. It can be especially tricky if the day and month can be confused (e.g., 01-05-2023 could be January 5 or May 1). Try to get ahead of this problem by standardizing date formats at the point of data collection if possible.
 
 # Here, we will use the lubridate package which provides convenient functions for parsing dates in various formats.
 
@@ -140,6 +140,18 @@ milk_df <- milk_df %>%
     )
   )
 
+# In the `orders` argument, we specify the possible date formats we expect to encounter.
+
+# The letter codes represent:
+# y = year
+# m = month
+# d = day
+# b = abbreviated month name (e.g., Jan, Feb)
+# Y = four-digit year
+
+# There are many more codes available in the lubridate documentation if you need them.
+# See: https://lubridate.tidyverse.org/reference/parse_date_time.html
+
 # Verify that the date column is now in Date format
 dplyr::glimpse(milk_df)
 
@@ -148,8 +160,7 @@ dplyr::glimpse(milk_df)
 str(milk_df$date) # should return "POSIXct"
 
 # class `POSIXct` represents date-time values in R
-# it is a numeric representation of the number of seconds since January 1, 1970
-# aka the Unix epoch
+# it is a numeric representation of the number of seconds since January 1, 1970 aka the Unix epoch
 
 # If any dates failed to parse, they will be converted to NA
 # Let's check for any NA values in the date column
@@ -158,11 +169,24 @@ bad_dates <- milk_df %>%
 
 print(bad_dates) # should be empty if all dates parsed correctly
 
-# TODO: check for bad date values (e.g., impossible dates like February 30)
-# and handle them appropriately (e.g., remove or correct)
+# It looks like we have 5 bad dates that failed to parse
 
-# Note: our data did not include a time component, so we want to strip out the
-# time part and keep only the date.
+# There are many ways to handle bad date values, depending on the context and your judgement.
+
+# Option 1: Manually correct bad dates in the original data if you have the correct information
+
+# Option 2: Remove rows with bad dates
+# For this example, we will go with Option 2 and remove rows with bad dates
+
+milk_df <- milk_df %>%
+  dplyr::filter(!is.na(date))
+
+# Option 3: Impute bad dates based on other information (e.g., previous observation's date, median date, etc.)
+# This option is more advanced and requires careful consideration of the implications.
+
+# Note: our data did not include a time component, so we want to strip out the time part
+# and keep only the date.
+# This is optional but can help avoid confusion later on.
 
 milk_df <- milk_df %>%
   dplyr::mutate(
