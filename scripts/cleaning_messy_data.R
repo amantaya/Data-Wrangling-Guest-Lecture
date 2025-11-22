@@ -6,6 +6,7 @@ library("here") # for file path management
 library("janitor") # for clean_names and get_dupes
 library("tidyr") # for drop_na
 library("lubridate") # for date parsing functions
+library("stringr") # for str_trim
 
 # library("tidylog") # this is optional but provides helpful messages when using dplyr functions. It 'masks' dplyr functions, meaning it takes precedence when both packages are loaded. I really like using this package when doing interactive data cleaning.
 
@@ -299,7 +300,9 @@ write.csv(
 # Load the feed intake data --------------------------------------------
 
 feed_intake_df <- readr::read_csv(
-  here::here("data", "raw", "feed_intake.csv")
+  here::here("data", "raw", "feed_intake.csv"),
+  trim_ws = FALSE # if TRUE, trims leading and trailing whitespace from character columns
+  # Setting it to FALSE to demonstrate cleaning messy data
 )
 
 dplyr::glimpse(feed_intake_df)
@@ -348,6 +351,12 @@ feed_intake_df <- feed_intake_df %>%
     )
   )
 
+# Strip to Date only (no time component)
+feed_intake_df <- feed_intake_df %>%
+  dplyr::mutate(
+    date = as.Date(date)
+  )
+
 # Check for bad dates --------------------------------------------------
 bad_feed_dates <- feed_intake_df %>%
   dplyr::filter(is.na(date))
@@ -362,15 +371,26 @@ unique_feed_types <- unique(feed_intake_df$feed_type)
 
 print(unique_feed_types)
 
-# It looks like there are some inconsistencies in the `feed_type` column (e.g., different capitalizations, typos).
+# It looks like there are some inconsistencies in the `feed_type` column (e.g., different capitalizations, typos, leading and trailing whitespace).
+
+# First, we will trim any leading or trailing whitespace
+
+feed_intake_df <- feed_intake_df %>%
+  dplyr::mutate(
+    feed_type = stringr::str_trim(feed_type)
+  )
+
+# Verify the changes
+unique_feed_types <- unique(feed_intake_df$feed_type)
+
+print(unique_feed_types)
 
 # Let's standardize the `feed_type` values to ensure consistency.
 feed_intake_df <- feed_intake_df %>%
   dplyr::mutate(
     feed_type = dplyr::case_when(
-      tolower(feed_type) %in% c("hay", "haylage") ~ "Hay",
-      tolower(feed_type) %in% c("silage", "corn silage") ~ "Silage",
-      tolower(feed_type) %in% c("grain", "concentrate") ~ "Grain",
+      tolower(feed_type) %in% c("hay") ~ "Hay",
+      tolower(feed_type) %in% c("silage", "corn silage", "corn") ~ "Silage",
       tolower(feed_type) %in% c("silge") ~ "Silage",
       TRUE ~ feed_type # keep original value if no match
     )
@@ -382,15 +402,30 @@ feed_intake_df <- feed_intake_df %>%
 # And is specific to the dplyr package.
 # I like it for its readability and conciseness.
 
-
-
 # Let's check the unique values again to verify the changes
 unique_feed_types <- unique(feed_intake_df$feed_type)
 
 print(unique_feed_types)
 
+# Perfect! Now the `feed_type` column is consistent and we only have two types: "Hay" and "Silage".
+
+# Final Verification of Data Types ------------------------------------
+
+dplyr::glimpse(feed_intake_df)
+
+# Based on our exploration, the appropriate data types should be:
+
+# Save Cleaned Feed Intake Data ----------------------------------------
+
+readr::write_csv(
+  feed_intake_df,
+  here::here("data", "clean", "feed_intake_clean.csv")
+)
+
+# Final Thoughts -------------------------------------------------------
+
 # Make sure to document your data cleaning steps in a script like this one!
 
 # This helps with reproducibility and allows others (and your future self) to understand what was done to the data.
 
-# Congratulations! You have successfully cleaned the messy milk yield dataset.
+# Congratulations! You have successfully cleaned the messy datasets.
