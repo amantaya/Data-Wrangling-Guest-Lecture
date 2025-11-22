@@ -116,6 +116,12 @@ milk_df <- milk_df %>%
 milk_df <- milk_df %>%
   dplyr::select(-treatment)
 
+# Re-arrange the observations ------------------------------------------
+
+# Shuffle the rows to remove any inherent order
+set.seed(67)
+milk_df <- milk_df[sample(1:nrow(milk_df)), ]
+
 # Write to CSV ---------------------------------------------------------
 
 write.csv(milk_df, file = "data/raw/milk_yield.csv", row.names = FALSE)
