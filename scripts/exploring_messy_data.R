@@ -9,24 +9,24 @@ library("dlookr") # for data exploration
 # messy_data <- read.csv("a/very/specific/file/path/that/will/only/work/on/your/computer/milk_yield.csv")
 
 # OK - but not portable across operating systems
-messy_data_df <- read.csv("data/raw/milk_yield.csv") # class: data.frame
+messy_milk_data_df <- read.csv("data/raw/milk_yield.csv") # class: data.frame
 
 # Better - using file.path for cross-platform paths
 # and uses class `tibble` for better data handling
-messy_data_tb <- read_csv(
+messy_milk_data_tb <- read_csv(
   file.path("data", "raw", "milk_yield.csv") # class: tibble
 )
 
 # Best - using here for project-root-relative paths
 # and uses class `tibble` for better data handling
-messy_data_tb <- readr::read_csv(
+messy_milk_data_tb <- readr::read_csv(
   here::here("data", "raw", "milk_yield.csv") # class: tibble
 )
 
 # Exploring Messy Data ---------------------------------------------------
 
 # Not great - raw printout
-print(messy_data_df)
+print(messy_milk_data_df)
 
 # print() method depends on the class of the object
 
@@ -35,19 +35,19 @@ print(messy_data_df)
 # class `tibble`` has a more sophisticated print method that shows
 # only a few rows and columns but also shows data types
 
-print(messy_data_tb)
+print(messy_milk_data_tb)
 
 # OK - overall view of the data
-View(messy_data_tb)
+View(messy_milk_data_tb)
 
 # Better - concise overview of the data structure
-dplyr::glimpse(messy_data_tb) # Includes data types and a preview of data
+dplyr::glimpse(messy_milk_data_tb) # Includes data types and a preview of data
 
 # Best - detailed diagnosis of data issues
-dlookr::diagnose(messy_data_tb)
+dlookr::diagnose(messy_milk_data_tb)
 
 # Amazing - paged report for easier navigation
-dlookr::diagnose_paged_report(messy_data_tb)
+dlookr::diagnose_paged_report(messy_milk_data_tb)
 
 # Exercise 1: Based on your exploration, list at least 5 specific data quality issues you identified in the messy dataset.
 
