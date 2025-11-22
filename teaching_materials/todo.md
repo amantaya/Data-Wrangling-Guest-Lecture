@@ -6,13 +6,13 @@
     - remove spaces and replace with underscores
     - remove special characters `%` and replace with words `percent`
 2. Handle missing values in `milk L` and `fat %` columns by removing rows with:
+    - duplicates
     - missing values
     - negative values (where such a value is impossible)
-3. Remove any duplicate rows from the dataset.
-2. Standardize date formats in the 'Date' column to "YYYY-MM-DD".
-5. Validate data types for each column (e.g., ensure 'milk_L' and 'feed_kg' are numeric, 'Date' is Date type).
-6. Arrange `Date` column in chronological order
-7. Save a clean version of the dataset to "data/clean_milk_yield.csv" after cleaning is complete.
+3. Standardize date formats in the 'Date' column to "YYYY-MM-DD".
+4. Arrange `Date` column in chronological order
+5. Validate data types for each column (e.g., ensure `milk_liters` and `fat_percent` are numeric, `date` is Date type).
+6. Save a clean version of the dataset to "data/clean_milk_yield.csv" after cleaning is complete.
 
 ## `feed_intake.csv`
 
