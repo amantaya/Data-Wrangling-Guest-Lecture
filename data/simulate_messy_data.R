@@ -53,7 +53,6 @@ milk_df <- tibble(
 
 # Introduce some negative or 0 values for `milk L` and `fat %`
 set.seed(42)
-# TODO: it may make more sense to make this 0 instead of negative
 zero_indices_milk <- sample(seq_len(nrow(milk_df)), size = 10)
 milk_df$`milk L`[zero_indices_milk] <- 0
 
