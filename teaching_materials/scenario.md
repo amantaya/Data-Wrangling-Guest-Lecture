@@ -2,10 +2,10 @@
 
 You are a graduate student at the Great Plains State University (not a real college) in the Department of Animal Science. Under the guidance of your graduate research advisor, your are tasked with investigating the effects of forage type on milk yield.
 
-There are two different forages provided to the dairy cows in your study:
+There are two different forages provided to 80 dairy cows in your study:
 
 - Corn Silage
-- Roughage (hay)
+- Hay
 
 Your advisor has asked you to present the results from these trials at the prestigious Intergalactic Animal Science Conference in just a week's time.
 
