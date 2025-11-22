@@ -12,7 +12,7 @@
 3. Standardize date formats in the 'Date' column to "YYYY-MM-DD".
 4. Arrange `date` column in chronological order
 5. Validate data types for each column (e.g., ensure `milk_liters` and `fat_percent` are numeric, `date` is Date type).
-6. Save a clean version of the dataset to "data/clean/milk_yield_clean.csv" after cleaning is complete.
+6. Save a clean version of the dataset to "data/clean/milk_yield_clean.csv"
 
 ## `feed_intake.csv`
 
@@ -24,7 +24,7 @@
     - trim whitespace: " silage " to "silage"
     - unify variables: merge "silage" into "Silage"
     - correct typos:  "silge" to "silage"
-12.
+12. Save a clean version of the dataset to "data/clean/feed_intake_clean.csv"
 
 ## Combine Datasets
 
