@@ -46,6 +46,8 @@ milk_df <- tibble(
                       digit = 2)
 )
 
+# TODO: super sneaky and super evil: introduce invalid dates like "2024-02-30" or "2024-13-01"
+
 # Negative Values ------------------------------------------------------
 
 # Introduce some negative or 0 values for `milk L` and `fat %`
