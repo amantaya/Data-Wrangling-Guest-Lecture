@@ -35,29 +35,7 @@ df <- data.frame(
                             1000,
                             mean = 3.5,
                             sd = 0.5),
-                      digit = 2),
-  # TODO: move to separate feed_intake.csv
-  feed_kg = round(
-                  rnorm(
-                        1000,
-                        mean = 20,
-                        sd = 3),
-                  digit = 2),
-  feed_type = sample(
-                     c(
-                       "silage",
-                       " silage",
-                       "silage ",
-                       "corn silage",
-                       "Silage",
-                       "silge",  # this is a deliberate typo to simulate messy data
-                       "corn",
-                       "Corn",
-                       "hay",
-                       "Hay",
-                       " hay "),
-                     size = 1000,
-                     replace = TRUE)
+                      digit = 2)
 )
 
 # TODO: introduce some negative values
@@ -87,4 +65,52 @@ df$feed_kg[missing_indices_feed] <- NA
 # Write to CSV
 write.csv(df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
-# TODO: simulate feed_intake.csv similarly
+set.seed(789)
+
+# Simulate feed_intake.csv similarly
+feed_df <- data.frame(
+  cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
+  Date = sample(
+    seq(
+      as.Date("2024-01-01"),
+      as.Date("2024-12-31"),
+      by = "day"),
+    size = 1000,
+    replace = TRUE),
+  feed_kg = round(
+    rnorm(
+      1000,
+      mean = 20,
+      sd = 3),
+    digit = 2),
+  feed_type = sample(
+    c(
+      "silage",
+      " silage",
+      "silage ",
+      "corn silage",
+      "Silage",
+      "silge", # this is a deliberate typo to simulate messy data
+      "corn",
+      "Corn",
+      "hay",
+      "Hay",
+      " hay "),
+    size = 1000,
+    replace = TRUE)
+)
+
+# Messy date formats
+feed_df$Date <- sapply(feed_df$Date, function(d) {
+  format_choice <- sample(date_formats, 1)
+  format(as.Date(d), format_choice)
+})
+
+# Missing values
+set.seed(90)
+missing_indices_feed <- sample(seq_len(nrow(feed_df)), size = 100)
+feed_df$feed_kg[missing_indices_feed] <- NA
+
+# Write to CSV
+write.csv(feed_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
+
