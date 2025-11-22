@@ -363,6 +363,15 @@ bad_feed_dates <- feed_intake_df %>%
 
 print(bad_feed_dates) # should be empty if all dates parsed correctly
 
+# Arrange by date ------------------------------------------------------
+
+feed_intake_df <- feed_intake_df %>%
+  dplyr::arrange(date)
+
+# Verify that the data is sorted by date
+print(head(feed_intake_df, 10)) # should show the earliest dates at the top
+print(tail(feed_intake_df, 10)) # should show the latest dates at the bottom
+
 # Correct Inconsistencies in `feed_type` Column ------------------------
 
 # Let's check the unique values in the `feed_type` column
