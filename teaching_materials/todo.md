@@ -10,7 +10,8 @@
 4. Handle missing values in 'milk_L' and 'feed_kg' columns by removing rows with missing values.
 5. Remove any duplicate rows from the dataset.
 6. Validate data types for each column (e.g., ensure 'milk_L' and 'feed_kg' are numeric, 'Date' is Date type).
-7. Save a clean version of the dataset to "data/clean_milk_yield.csv" after cleaning is complete.
+7. Arrange `Date` column in chronological order
+8. Save a clean version of the dataset to "data/clean_milk_yield.csv" after cleaning is complete.
 
 ## `feed_intake.csv`
 
