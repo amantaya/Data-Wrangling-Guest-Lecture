@@ -43,6 +43,15 @@ View(messy_milk_data_tb)
 # Better - concise overview of the data structure
 dplyr::glimpse(messy_milk_data_tb) # Includes data types and a preview of data
 
+# TODO: separate into separate sections
+# Section 1: viewing the data structure
+
+# Section 2: summary statistics, missing values, etc.
+# Introduce dlookr functions for data exploration
+
+# Great - summary statistics for each variable
+dlookr::describe(messy_milk_data_tb)
+
 # Best - detailed diagnosis of data issues
 dlookr::diagnose(messy_milk_data_tb)
 
@@ -57,3 +66,22 @@ dlookr::diagnose_paged_report(messy_milk_data_tb)
 
 # There is a fancy name for what we did here today, it's called:
 # Exploratory Data Analysis (EDA)
+
+# Loading the Feed Intake Data -----------------------------------------
+
+feed_intake_tb <- readr::read_csv(
+  here::here("data", "raw", "feed_intake.csv")
+)
+
+# Exploring the Feed Intake Data ---------------------------------------
+
+dlookr::describe(feed_intake_tb)
+
+dlookr::diagnose(feed_intake_tb)
+
+dlookr::diagnose_category(feed_intake_tb, column = `Feed Type`)
+
+# What do you notice about the `Feed Type` variable?
+
+
+dlookr::diagnose_paged_report(feed_intake_tb)
