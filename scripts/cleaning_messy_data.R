@@ -291,3 +291,106 @@ write.csv(
   here::here("data", "clean", "milk_yield_clean.csv"),
   row.names = FALSE
 )
+
+# End of Cleaning `milk_yield.csv` -------------------------------------
+
+# Next, we need to clean the feed intake data in a similar manner.
+
+# Load the feed intake data --------------------------------------------
+
+feed_intake_df <- readr::read_csv(
+  here::here("data", "raw", "feed_intake.csv")
+)
+
+dplyr::glimpse(feed_intake_df)
+
+# Clean the column names -----------------------------------------------
+
+feed_intake_df <- janitor::clean_names(feed_intake_df, case = "snake")
+
+# Glimpse the data to see updated column names
+dplyr::glimpse(feed_intake_df)
+
+# Check for incomplete observations ------------------------------------
+missing_feed_summary <- feed_intake_df %>%
+  dplyr::summarise(across(everything(), ~ sum(is.na(.))))
+
+print(missing_feed_summary)
+
+# Remove incomplete observations ---------------------------------------
+
+feed_intake_df <- feed_intake_df %>%
+  tidyr::drop_na(feed_kg)
+
+# Verify no missing values
+missing_feed_summary <- feed_intake_df %>%
+  dplyr::summarise(feed_missing = sum(is.na(feed_kg)))
+
+print(missing_feed_summary) # should show 0
+
+# [Optional] Rename `vid` to `cow_id` for consistency ------------------
+
+# Since our milk_yield.csv uses `cow_id`, we will rename `vid` to `cow_id` here for consistency.
+
+feed_intake_df <- feed_intake_df %>%
+  dplyr::rename(cow_id = vid)
+
+# Verify the column rename
+dplyr::glimpse(feed_intake_df)
+
+# Convert date column to Date type -------------------------------------
+
+feed_intake_df <- feed_intake_df %>%
+  dplyr::mutate(
+    date = lubridate::parse_date_time(
+      date,
+      orders = c("ymd", "mdy", "dmy", "mdY", "d b Y")
+    )
+  )
+
+# Check for bad dates --------------------------------------------------
+bad_feed_dates <- feed_intake_df %>%
+  dplyr::filter(is.na(date))
+
+print(bad_feed_dates) # should be empty if all dates parsed correctly
+
+# Correct Inconsistencies in `feed_type` Column ------------------------
+
+# Let's check the unique values in the `feed_type` column
+
+unique_feed_types <- unique(feed_intake_df$feed_type)
+
+print(unique_feed_types)
+
+# It looks like there are some inconsistencies in the `feed_type` column (e.g., different capitalizations, typos).
+
+# Let's standardize the `feed_type` values to ensure consistency.
+feed_intake_df <- feed_intake_df %>%
+  dplyr::mutate(
+    feed_type = dplyr::case_when(
+      tolower(feed_type) %in% c("hay", "haylage") ~ "Hay",
+      tolower(feed_type) %in% c("silage", "corn silage") ~ "Silage",
+      tolower(feed_type) %in% c("grain", "concentrate") ~ "Grain",
+      tolower(feed_type) %in% c("silge") ~ "Silage",
+      TRUE ~ feed_type # keep original value if no match
+    )
+  )
+
+# Don't be afraid to add more conditions as needed based on your data exploration!
+
+# This syntax uses `case_when()` to map various inconsistent values to standardized ones.
+# And is specific to the dplyr package.
+# I like it for its readability and conciseness.
+
+
+
+# Let's check the unique values again to verify the changes
+unique_feed_types <- unique(feed_intake_df$feed_type)
+
+print(unique_feed_types)
+
+# Make sure to document your data cleaning steps in a script like this one!
+
+# This helps with reproducibility and allows others (and your future self) to understand what was done to the data.
+
+# Congratulations! You have successfully cleaned the messy milk yield dataset.
