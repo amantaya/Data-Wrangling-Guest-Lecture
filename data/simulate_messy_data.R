@@ -15,9 +15,6 @@ generate_ids <- function(n) {
   ids
 }
 
-# TODO: randomly assign cows to the feed data ensuring all cow IDs in milk data are present
-# then manipulate the milk yield for cows in the `silage` treatment to have a higher yield
-
 cow_ids <- generate_ids(80)
 
 milk_df <- tibble(
@@ -93,18 +90,46 @@ set.seed(89)
 outlier_indices_milk <- sample(seq_len(nrow(milk_df)), size = 5)
 milk_df$`milk L`[outlier_indices_milk] <- milk_df$`milk L`[outlier_indices_milk] + 50
 
-# Write to CSV
+# Manipulate Data to Create Relationship -------------------------------
+
+# Randomly assign cows to the feed data ensuring all cow IDs in milk data are present
+# then manipulate the milk yield for cows in the `silage` treatment to have a higher yield
+
+# First, randomly assign cows to a feed treatment (e.g., "silage" or "hay")
+set.seed(321)
+cow_treatment <- tibble(
+  cow_ID = cow_ids,
+  treatment = sample(c("silage", "hay"), size = length(cow_ids), replace = TRUE)
+)
+
+# Merge treatment info into milk_df
+milk_df <- milk_df %>%
+  dplyr::left_join(cow_treatment, by = "cow_ID")
+
+# Increase milk yield for cows in the silage treatment
+milk_df <- milk_df %>%
+  dplyr::mutate(`milk L` = ifelse(treatment == "silage" & !is.na(`milk L`), `milk L` + 5, `milk L`))
+
+# Remove treatment column before saving
+milk_df <- milk_df %>%
+  dplyr::select(-treatment)
+
+# Write to CSV ---------------------------------------------------------
+
 write.csv(milk_df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
 # End of `milk_yield.csv` Simulation -----------------------------------
 
 set.seed(123)
 
-# Simulate feed_intake.csv similarly
-feed_df <- tibble(
   # TODO: check that all of the cow ids from the milk data are in the feed data
   # the seed should be the same to ensure the same cow IDs are generated
+
+# Simulate feed_intake.csv similarly
+feed_df <- tibble(
+  # NOTE: the `vid` column is deliberately different than the `cow_ID` column in milk data
   vid = sample(cow_ids, size = 1000, replace = TRUE),
+  # NOTE: the `date` column is deliberately lowercase to simulate messy data
   date = sample(
     seq(
       as.Date("2024-01-01"),
@@ -112,13 +137,17 @@ feed_df <- tibble(
       by = "day"),
     size = 1000,
     replace = TRUE),
+  # NOTE: the `feed KG` column name has a space that students will need to
+  # replace with an underscore and convert to lowercase
   `feed KG` = round(
     rnorm(
       1000,
       mean = 20,
       sd = 3),
     digit = 2),
-  `feed type` = sample(
+  # NOTE: the `Feed Type` column has inconsistent capitalization and spacing
+  # students will need to standardize these entries
+  `Feed Type` = sample(
     c(
       "silage",
       " silage",
@@ -137,7 +166,7 @@ feed_df <- tibble(
 
 # Messy Date Formats ---------------------------------------------------
 
-feed_df$Date <- sapply(feed_df$Date, function(d) {
+feed_df$Date <- sapply(feed_df$date, function(d) {
   format_choice <- sample(date_formats, 1)
   format(as.Date(d), format_choice)
 })
@@ -146,7 +175,7 @@ feed_df$Date <- sapply(feed_df$Date, function(d) {
 
 set.seed(90)
 missing_indices_feed <- sample(seq_len(nrow(feed_df)), size = 50)
-feed_df$feed_kg[missing_indices_feed] <- NA
+feed_df$`feed KG`[missing_indices_feed] <- NA
 
 # Duplicate Observations -----------------------------------------------
 
