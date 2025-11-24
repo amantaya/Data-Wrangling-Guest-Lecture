@@ -62,11 +62,6 @@ dlookr::diagnose_paged_report(messy_milk_data_tb)
 
 # Exercise 2: For each data quality issue you identified, suggest a specific data cleaning step that could address the issue.
 
-# TODO: what other `dlookr` functions should I introduce them too?
-
-# There is a fancy name for what we did here today, it's called:
-# Exploratory Data Analysis (EDA)
-
 # Loading the Feed Intake Data -----------------------------------------
 
 feed_intake_tb <- readr::read_csv(
@@ -83,5 +78,11 @@ dlookr::diagnose_category(feed_intake_tb, column = `Feed Type`)
 
 # What do you notice about the `Feed Type` variable?
 
-
 dlookr::diagnose_paged_report(feed_intake_tb)
+
+# Exercise 3: Based on your exploration of the feed intake data, list at least 3 specific data quality issues you identified.
+
+# End of Exploration -------------------------------------------------------
+
+# There is a fancy name for what we did here today, it's called:
+# Exploratory Data Analysis (EDA)
