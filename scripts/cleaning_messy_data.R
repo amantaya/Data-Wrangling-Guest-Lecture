@@ -39,7 +39,7 @@ dplyr::glimpse(milk_df)
 
 # I don't think the `milk_l` column is clear enough, so let's rename it to `milk_liters`
 
-milk_df <- milk_df %>%
+milk_df <- milk_df |>
     dplyr::rename(milk_liters = milk_l)
 
 # Note: the `%>%` is the pipe operator from the `magrittr` package, which is also loaded with `dplyr`
@@ -284,6 +284,7 @@ readr::write_csv(
 )
 
 # I prefer `readr::write_csv()` because it is faster and more consistent than base R's `write.csv()`
+
 # However, `readr::write_csv()` will convert datetimes to UTC by default, which may not be desired in all cases.
 
 # OR using base R

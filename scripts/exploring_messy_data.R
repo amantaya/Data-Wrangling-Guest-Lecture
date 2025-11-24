@@ -13,7 +13,7 @@ messy_milk_data_df <- read.csv("data/raw/milk_yield.csv") # class: data.frame
 
 # Better - using file.path for cross-platform paths
 # and uses class `tibble` for better data handling
-messy_milk_data_tb <- read_csv(
+messy_milk_data_tb <- readr::read_csv(
   file.path("data", "raw", "milk_yield.csv") # class: tibble
 )
 
@@ -60,7 +60,20 @@ dlookr::diagnose_paged_report(messy_milk_data_tb)
 
 # Exercise 1: Based on your exploration, list at least 5 specific data quality issues you identified in the messy dataset.
 
+# 1. negative values in fat column
+# 2. missing values in milk L column
+# 3. inconsistent date formats in Date column
+# 4. [DONE] zero values in milk L column
+# 5. [DONE] inconsistent column names with special characters and spaces
+# 6. [DONE] remove duplicates
+
 # Exercise 2: For each data quality issue you identified, suggest a specific data cleaning step that could address the issue.
+
+# 1. Replace negative values in fat column remove them
+# 2. remove missing values in milk L column
+# 3. Standardize date formats in Date column to "YYYY-MM-DD"
+# 4. Remove zero values in milk L column
+# 5. Rename columns to remove special characters and spaces from column names
 
 # Loading the Feed Intake Data -----------------------------------------
 
@@ -81,6 +94,10 @@ dlookr::diagnose_category(feed_intake_tb, column = `Feed Type`)
 dlookr::diagnose_paged_report(feed_intake_tb)
 
 # Exercise 3: Based on your exploration of the feed intake data, list at least 3 specific data quality issues you identified.
+
+# 1. inconsistent capitalization in columns
+# 2. leading/trailing spaces in Feed Type column
+# 3. missing values in feed KG column
 
 # End of Exploration -------------------------------------------------------
 
