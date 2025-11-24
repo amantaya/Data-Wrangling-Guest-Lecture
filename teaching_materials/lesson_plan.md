@@ -4,8 +4,8 @@
 
 1. Send the link to this GitHub repo in chat
 2. Show students how to download code as .zip file (bonus points if some knows how to use `git clone`)
-3. Talk through intro to data wrangling [README](README.md)
-4. Talk through the data wrangling scenario [scenario.md](teaching_materials/scenario.md)
+3. Talk through intro to data wrangling [README](../README.md)
+4. Talk through the data wrangling scenario [scenario.md](scenario.md)
 5. Walk through exploring messy data script [exploring_messy_data.R](scripts/exploring_messy_data.R)
 
 ## Part 2
