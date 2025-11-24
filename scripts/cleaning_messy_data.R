@@ -296,6 +296,8 @@ write.csv(
 
 # End of Cleaning `milk_yield.csv` -------------------------------------
 
+# STOPPED HERE LECTURE 1 -----------------------------------------------
+
 # Next, we need to clean the feed intake data in a similar manner.
 
 # Load the feed intake data --------------------------------------------
