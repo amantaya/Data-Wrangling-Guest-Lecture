@@ -459,6 +459,15 @@ dplyr::glimpse(feed_intake_df)
 
 # Based on our exploration, the appropriate data types should be:
 
+# cow_id: character
+# date: Date
+# feed_kg: numeric
+# feed_type: character (2 unique values: "Hay", "Silage")
+
+# Final Verification ---------------------------------------------------
+
+dlookr::diagnose_paged_report(feed_intake_df)
+
 # Save Cleaned Feed Intake Data ----------------------------------------
 
 readr::write_csv(
