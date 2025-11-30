@@ -108,7 +108,7 @@ set.seed(45)
 milk_df <- milk_df %>%
   dplyr::mutate(
     Date = ifelse(
-      runif(nrow(milk_df)) < 0.005, # 2% chance to create an invalid date
+      runif(nrow(milk_df)) < 0.005, # 0.5% chance to create an invalid date
       sample(c("2024-02-30", "2024-04-31", "2024-09-31"), size = nrow(milk_df), replace = TRUE),
       as.character(Date)
     )
