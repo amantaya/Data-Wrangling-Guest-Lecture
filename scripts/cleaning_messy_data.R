@@ -282,7 +282,8 @@ dplyr::glimpse(milk_df)
 # I like to run a final data quality report to summarize the cleaned data
 # Just to be sure everything looks good
 
-dlookr::diagnose_paged_report(milk_df)
+# TODO: re-enable this line
+# dlookr::diagnose_paged_report(milk_df)
 
 # Save Cleaned Data ----------------------------------------------------
 
@@ -510,7 +511,8 @@ dplyr::glimpse(feed_intake_df)
 
 # Final Verification ---------------------------------------------------
 
-dlookr::diagnose_paged_report(feed_intake_df)
+# TODO: re-enable this line
+# dlookr::diagnose_paged_report(feed_intake_df)
 
 # Save Cleaned Feed Intake Data ----------------------------------------
 
@@ -589,6 +591,16 @@ rows_not_matched_in_milk <-
   )
 
 View(rows_not_matched_in_milk)
+
+# Final Verification of Combined Data ----------------------------------
+
+dlookr::diagnose_paged_report(combined_df)
+
+# Save Combined Data ---------------------------------------------------
+readr::write_csv(
+  combined_df,
+  here::here("data", "clean", "combined_milk_feed_clean.csv")
+)
 
 # Final Thoughts -------------------------------------------------------
 
