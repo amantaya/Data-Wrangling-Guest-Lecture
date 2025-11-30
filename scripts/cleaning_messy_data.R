@@ -2,6 +2,7 @@
 
 library("readr") # for read_csv
 library("dplyr") # for glimpse, rename, and pipe operator
+library("dlookr") # for diagnose_paged_report
 library("here") # for file path management
 library("janitor") # for clean_names and get_dupes
 library("tidyr") # for drop_na
@@ -263,6 +264,13 @@ dplyr::glimpse(milk_df)
 # Why? Because having the correct data types is crucial for accurate analysis and prevents errors in calculations and visualizations later on.
 
 # For example, if `milk_liters` was read in as character, we would not be able to perform numerical operations on it until we convert it to numeric.
+
+# Final Verification ---------------------------------------------------
+
+# I like to run a final data quality report to summarize the cleaned data
+# Just to be sure everything looks good
+
+dlookr::diagnose_paged_report(milk_df)
 
 # Save Cleaned Data ----------------------------------------------------
 
