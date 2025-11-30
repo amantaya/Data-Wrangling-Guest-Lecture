@@ -62,22 +62,30 @@ milk_df %>%
 
 # Introduce some negative or 0 values for `milk L` and `fat %`
 set.seed(42)
+
 zero_indices_milk <- sample(seq_len(nrow(milk_df)), size = 10)
+
 milk_df$`milk L`[zero_indices_milk] <- 0
 
 set.seed(43)
+
 neg_indices_fat <- sample(seq_len(nrow(milk_df)), size = 5)
+
 milk_df$`fat %`[neg_indices_fat] <- -abs(milk_df$`fat %`[neg_indices_fat])
 
 # Missing Values -------------------------------------------------------
 
 # Introduce some missing values for `milk L` and `fat %`
 set.seed(34)
+
 missing_indices_milk <- sample(seq_len(nrow(milk_df)), size = 50)
+
 milk_df$`milk L`[missing_indices_milk] <- NA
 
 set.seed(56)
+
 missing_indices_fat <- sample(seq_len(nrow(milk_df)), size = 30)
+
 milk_df$`fat %`[missing_indices_fat] <- NA
 
 # Messy Date Formats ---------------------------------------------------
