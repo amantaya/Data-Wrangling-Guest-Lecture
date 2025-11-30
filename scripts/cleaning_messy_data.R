@@ -529,9 +529,7 @@ combined_df <- dplyr::inner_join(
   by = c("cow_id", "date") # this specifies the common columns to join on
 )
 
-# `tidylog` provides helpful messages about the join operation
-# drop-in replacement for most `dplyr` functions
-# highly recommended for interactive data wrangling
+# notice that all we changed was to use `tidylog::inner_join()` instead of `dplyr::inner_join()`
 combined_df <- tidylog::inner_join(
   milk_df,
   feed_intake_df,
@@ -539,12 +537,6 @@ combined_df <- tidylog::inner_join(
 )
 
 View(combined_df)
-
-# Checking With Rows Weren't Matches -----------------------------------
-
-# Let's check which cow IDs and dates were not matched in the join operation.
-
-
 
 # Note on Join Types ----------------------------------------------------
 
@@ -568,12 +560,37 @@ View(combined_df)
 
 # I found the `tidylog` package helpful when working interactively with joins, as it provides informative messages about the number of rows before and after the join operation.
 
-# notice that all we changed was to use `tidylog::inner_join()` instead of `dplyr::inner_join()`
-combined_df <- tidylog::inner_join(
-  milk_df,
-  feed_intake_df,
-  by = c("cow_id", "date")
+# Checking With Rows Weren't Matches -----------------------------------
+
+# Let's check which cow IDs and dates were not matched in the join operation.
+
+# This is useful for understanding potential data loss during the join.
+
+# Your Goal is to Understand Why Some Records Were Not Matched
+
+# I often phrase the join as question so I can better understand what happened.
+
+# Which rows in milk_df were not matched in feed_intake_df?
+rows_not_matched_in_feed <-
+  dplyr::anti_join(
+    milk_df,
+    feed_intake_df,
+    by = c("cow_id", "date")
 )
+
+View(rows_not_matched_in_feed)
+
+# TODO: it looks like there are still some bad dates in milk_df
+
+# Which rows in feed_intake_df were not matched in milk_df?
+rows_not_matched_in_milk <-
+  dplyr::anti_join(
+    feed_intake_df,
+    milk_df,
+    by = c("cow_id", "date")
+  )
+
+View(rows_not_matched_in_milk)
 
 # Final Thoughts -------------------------------------------------------
 
