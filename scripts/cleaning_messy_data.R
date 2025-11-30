@@ -378,13 +378,42 @@ print(duplicate_feed_rows_after) # should be empty
 
 # Convert date column to Date type -------------------------------------
 
+feed_intake_df_bad_parse <- feed_intake_df %>%
+  dplyr::mutate(
+    date_parsed= lubridate::parse_date_time(
+      date,
+      orders = c("ymd", "mdy", "mdY", "d b Y")
+    ),
+    .after = date # placing new column after original date column
+  )
+
+# Caution: using the same date formats as before may lead to ambiguities if day and month can be confused.
+# Make sure to verify the parsed dates carefully.
+
+# In this case, the parsing algorithm introduced duplicate dates for some cows due to ambiguities in the date formats.
+bad_date_parse <-
+janitor::get_dupes(feed_intake_df_bad_parse, cow_id, date_parsed) %>%
+  dplyr::arrange(cow_id, date_parsed)
+
+View(bad_date_parse)
+
+# Trying again with exact = TRUE to avoid ambiguities
 feed_intake_df <- feed_intake_df %>%
   dplyr::mutate(
-    date = lubridate::parse_date_time(
+    date_parsed = lubridate::parse_date_time( # NOTE: creating a new column to compare
       date,
-      orders = c("ymd", "mdy", "dmy", "mdY", "d b Y")
-    )
+      orders = c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%d %b %Y"),
+      exact = TRUE
+    ),
+    .after = date # placing new column after original date column
   )
+
+# Using `exact = TRUE` prevents the parsing algorithm from guessing formats, which helps avoid ambiguities.
+
+feed_intake_df %>%
+  dplyr::arrange(cow_id, date_parsed) %>%
+  View()
+
 
 # Strip to Date only (no time component)
 feed_intake_df <- feed_intake_df %>%
