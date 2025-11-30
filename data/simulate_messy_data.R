@@ -46,6 +46,18 @@ milk_df <- tibble(
                       digit = 2)
 )
 
+# What cow IDs were generated?
+unique_ids_in_milk_df <-
+milk_df %>%
+  dplyr::distinct(cow_ID) %>%
+  dplyr::arrange(cow_ID)
+
+# What dates were generated?
+unique_dates_in_milk_df <-
+milk_df %>%
+  dplyr::distinct(Date) %>%
+  dplyr::arrange(Date)
+
 # Negative Values ------------------------------------------------------
 
 # Introduce some negative or 0 values for `milk L` and `fat %`
@@ -144,8 +156,8 @@ write.csv(milk_df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
 set.seed(123)
 
-  # TODO: check that all of the cow ids from the milk data are in the feed data
-  # the seed should be the same to ensure the same cow IDs are generated
+# TODO: check that all of the cow ids from the milk data are in the feed data
+# the seed should be the same to ensure the same cow IDs are generated
 
 # Simulate feed_intake.csv similarly
 feed_df <- tibble(
@@ -186,6 +198,22 @@ feed_df <- tibble(
     replace = TRUE)
 )
 
+# What cow IDs were generated?
+unique_ids_in_feed_df <-
+feed_df %>%
+  dplyr::distinct(vid) %>%
+  dplyr::arrange(vid)
+
+setdiff(unique_ids_in_milk_df$cow_ID, unique_ids_in_feed_df$vid)
+
+# What dates were generated?
+unique_dates_in_feed_df <-
+feed_df %>%
+  dplyr::distinct(date) %>%
+  dplyr::arrange(date)
+
+setdiff(unique_dates_in_milk_df$Date, unique_dates_in_feed_df$date)
+
 # Messy Date Formats ---------------------------------------------------
 
 feed_df$date <- sapply(feed_df$date, function(d) {
@@ -206,3 +234,6 @@ feed_df <- rbind(feed_df, feed_df[sample(1:nrow(feed_df),3), ])
 
 # Write to CSV
 write.csv(feed_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
+
+# End of `feed_intake.csv` Simulation ----------------------------------
+
