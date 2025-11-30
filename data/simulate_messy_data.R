@@ -17,33 +17,33 @@ generate_ids <- function(n) {
 
 cow_ids <- generate_ids(80)
 
-milk_df <- tibble(
-  cow_ID = sample(cow_ids, size = 1000, replace = TRUE),
+# Create all combinations of cow_ID and Date (one row per cow per date)
+all_dates <- seq(as.Date("2024-06-01"), as.Date("2024-09-01"), by = "day")
+
+milk_df <- expand.grid(
+  cow_ID = cow_ids,
   # NOTE: note the `Date` column is deliberately capitalized and students will need to
   # convert to a lowercase
-  Date = sample(
-                seq(
-                    as.Date("2024-01-01"),
-                    as.Date("2024-12-31"),
-                    by = "day"),
-                size = 1000,
-                replace = TRUE),
-  # NOTE: the `milk L` deliberately has a space and students will need to
-  # replace the space with an underscore
-  `milk L` = round(
-                 rnorm(
-                       1000,
-                       mean = 30,
-                       sd = 5),
-                 digit = 2),
-  # NOTE: the `fat %` column name has a special character `%`
-  # that students will need to replace with `percent`
-  `fat %` = round(
-                      rnorm(
-                            1000,
-                            mean = 3.5,
-                            sd = 0.5),
-                      digit = 2)
+  Date = all_dates
+)
+
+milk_df <- milk_df |>
+  as_tibble() |>
+  # NOTE: the `milk L` deliberately has a space and students will need to replace the space with an underscore
+  dplyr::mutate(
+    `milk L` = round(
+                     rnorm(
+                           n(),
+                           mean = 30,
+                           sd = 5),
+                     digits = 2),
+  # NOTE: the `fat %` column name has a special character `%` that students will need to replace with `percent`
+    `fat %` = round(
+                    rnorm(
+                          n(),
+                          mean = 3.5,
+                          sd = 0.5),
+                     digits = 2)
 )
 
 # What cow IDs were generated?
@@ -156,31 +156,28 @@ write.csv(milk_df, file = "data/raw/milk_yield.csv", row.names = FALSE)
 
 set.seed(123)
 
-# TODO: check that all of the cow ids from the milk data are in the feed data
-# the seed should be the same to ensure the same cow IDs are generated
+# Create all combinations of cow_ID and Date (one row per cow per date)
+all_dates <- seq(as.Date("2024-06-01"), as.Date("2024-09-01"), by = "day")
+
+feed_df <- expand.grid(
+  # NOTE: the `vid` column is deliberately different than the `cow_ID` column in milk data
+  vid = cow_ids,
+  # NOTE: the `date` column is deliberately lowercase so students will need to standardize this with the `Date` column in milk data
+  date = all_dates
+)
 
 # Simulate feed_intake.csv similarly
-feed_df <- tibble(
-  # NOTE: the `vid` column is deliberately different than the `cow_ID` column in milk data
-  vid = sample(cow_ids, size = 1000, replace = TRUE),
-  # NOTE: the `date` column is deliberately lowercase to simulate messy data
-  date = sample(
-    seq(
-      as.Date("2024-01-01"),
-      as.Date("2024-12-31"),
-      by = "day"),
-    size = 1000,
-    replace = TRUE),
-  # NOTE: the `feed KG` column name has a space that students will need to
-  # replace with an underscore and convert to lowercase
+feed_df <- feed_df |>
+  as_tibble() |>
+  dplyr::mutate(
+  # NOTE: the `feed KG` column name has a space that students will need to replace with an underscore and convert to lowercase
   `feed KG` = round(
     rnorm(
-      1000,
+      n(),
       mean = 20,
       sd = 3),
     digit = 2),
-  # NOTE: the `Feed Type` column has inconsistent capitalization and spacing
-  # students will need to standardize these entries
+  # NOTE: the `Feed Type` column has inconsistent capitalization and spacing students will need to standardize these entries
   `Feed Type` = sample(
     c(
       "silage",
@@ -194,13 +191,14 @@ feed_df <- tibble(
       "hay",
       "Hay",
       " hay "),
-    size = 1000,
+    size = n(),
     replace = TRUE)
 )
 
 # What cow IDs were generated?
 unique_ids_in_feed_df <-
 feed_df %>%
+  dplyr::mutate(vid = as.character(vid)) %>%
   dplyr::distinct(vid) %>%
   dplyr::arrange(vid)
 
@@ -236,4 +234,3 @@ feed_df <- rbind(feed_df, feed_df[sample(1:nrow(feed_df),3), ])
 write.csv(feed_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
 
 # End of `feed_intake.csv` Simulation ----------------------------------
-
