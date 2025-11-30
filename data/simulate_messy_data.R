@@ -1,4 +1,5 @@
 library(tidyverse)
+library("tidylog")
 
 set.seed(123)
 
@@ -190,31 +191,34 @@ feed_df <- feed_df |>
 
 # Join By Cow Treatment
 feed_df <- feed_df %>%
-  dplyr::left_join(cow_treatment, by = c("vid" = "cow_ID"))
+  tidylog::left_join(cow_treatment, by = c("vid" = "cow_ID"))
 
-# Introduce some messy `Feed Type` entries
+# Introduce some messy `Feed Type` entries -----------------------------
+
+silage_misspellings <- c(
+  "silage",
+  " silage",
+  "silage ",
+  "corn silage",
+  "Silage",
+  "silge" # this is a deliberate typo to simulate messy data
+)
+
+hay_misspellings <- c(
+  "hay",
+  "Hay",
+  " hay "
+)
 
 feed_df <- feed_df %>%
   dplyr::mutate(
     # NOTE: the `Feed Type` column has inconsistent capitalization and spacing students will need to standardize these entries
     `Feed Type` = ifelse(
       treatment == "silage",
-      sample(
-        c(
-          "silage",
-          " silage",
-          "silage ",
-          "corn silage",
-          "Silage",
-          "silge", # this is a deliberate typo to simulate messy data
-        ),
+      sample(silage_misspellings,
         size = n(),
         replace = TRUE),
-      sample(
-        c(
-          "hay",
-          "Hay",
-          " hay "),
+      sample(hay_misspellings,
         size = n(),
         replace = TRUE)
     )
