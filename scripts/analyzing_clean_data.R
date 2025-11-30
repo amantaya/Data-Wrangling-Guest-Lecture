@@ -57,6 +57,10 @@ par(mfrow = c(2, 2))
 
 plot(milk_yield_residuals)
 
+# Assumption 2 may be violated if the same cows are measured multiple times.
+# Therefore, a Student's T-Test may not be appropriate.
+# Consider using a linear mixed-effects model to account for repeated measures.
+
 # Fitting a Two-Sample T-Test ------------------------------------------
 
 # Effect of Feed Type on Milk Production -------------------------------
