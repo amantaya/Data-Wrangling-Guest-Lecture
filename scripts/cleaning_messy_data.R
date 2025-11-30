@@ -351,6 +351,31 @@ feed_intake_df <- feed_intake_df %>%
 # Verify the column rename
 dplyr::glimpse(feed_intake_df)
 
+# Check for negative or zero values ------------------------------------
+
+negative_zero_feed_summary <- feed_intake_df %>%
+  dplyr::summarise(
+    negative_zero_feed = sum(feed_kg <= 0)
+  )
+
+print(negative_zero_feed_summary) # should show number of negative or zero values
+
+# Check for Duplicate Observations -------------------------------------
+
+duplicate_feed_rows_before <- janitor::get_dupes(feed_intake_df)
+
+print(duplicate_feed_rows_before)
+
+# Remove Duplicate Observations ----------------------------------------
+
+feed_intake_df <- feed_intake_df %>%
+  dplyr::distinct() # keeps only unique rows
+
+# Verify that we removed duplicates
+duplicate_feed_rows_after <- janitor::get_dupes(feed_intake_df)
+
+print(duplicate_feed_rows_after)
+
 # Convert date column to Date type -------------------------------------
 
 feed_intake_df <- feed_intake_df %>%
@@ -445,11 +470,17 @@ readr::write_csv(
 
 # Now that we both data sets are cleaned, we can join them together for analysis.
 
-combined_df <- dplyr::inner_join(
+combined_df <- dplyr::full_join(
   milk_df,
   feed_intake_df,
   by = c("cow_id", "date") # this specifies the common columns to join on
 )
+
+View(milk_df[637, ])
+
+feed_intake_df |>
+  dplyr::filter(cow_id == "J6910" & date == as.Date("2024-09-22")) |>
+  View()
 
 # I want to point out an important aspect of joining datasets: the choice of join type.
 
