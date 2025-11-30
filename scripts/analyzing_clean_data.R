@@ -50,6 +50,13 @@ dlookr::plot_outlier(combined_df)
 # 4. Is there homogeneity of variances?
 # Plotting residuals can help assess this assumption.
 
+# Create residual plots to assess homogeneity of variances
+milk_yield_residuals <- lm(milk_liters ~ feed_type, data = combined_df)
+
+par(mfrow = c(2, 2))
+
+plot(milk_yield_residuals)
+
 # Fitting a Two-Sample T-Test ------------------------------------------
 
 # Effect of Feed Type on Milk Production -------------------------------
