@@ -155,11 +155,17 @@ print(negative_zero_summary) # should show 0 for both columns
 
 milk_df <- milk_df %>%
   dplyr::mutate(
-    date = lubridate::parse_date_time(
+    date_parsed = lubridate::parse_date_time( # NOTE: creating a new column to compare
       date,
-      orders = c("ymd", "mdy", "dmy", "mdY", "d b Y")
-    )
+      orders = c("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%d %b %Y"),
+      exact = TRUE
+    ),
+    .after = date # placing new column after original date column
   )
+
+View(milk_df)
+
+# Using `exact = TRUE` prevents the parsing algorithm from guessing formats, which helps avoid ambiguities.
 
 # Note that a warning message may appear indicating that some dates failed to parse.
 # We will handle those invalid dates in the next section.
@@ -181,7 +187,7 @@ dplyr::glimpse(milk_df)
 
 # The `date` column should now show as `dttm` type in the glimpse output
 
-str(milk_df$date) # should return "POSIXct"
+str(milk_df$date_parsed) # should return "POSIXct"
 
 # class `POSIXct` represents date-time values in R
 # it is a numeric representation of the number of seconds since January 1, 1970 aka the Unix epoch
@@ -193,12 +199,12 @@ str(milk_df$date) # should return "POSIXct"
 # Let's check for any NA values in the date column.
 
 bad_dates <- milk_df %>%
-  dplyr::filter(is.na(date))
+  dplyr::filter(is.na(date_parsed))
 
 print(bad_dates) # should be empty if all dates parsed correctly
 
 # Oh no!
-# It looks like we have 5 bad dates that failed to parse
+# It looks like we have 40 bad dates that failed to parse
 
 # There are many ways to handle bad date values, depending on the context and your judgement.
 
@@ -211,13 +217,20 @@ print(bad_dates) # should be empty if all dates parsed correctly
 
 # For this example, we will go with Option 2 and remove rows with bad dates
 milk_df <- milk_df %>%
-  dplyr::filter(!is.na(date))
+  dplyr::filter(!is.na(date_parsed))
 
 # Verify that there are no more bad dates
 bad_dates_after <- milk_df %>%
-  dplyr::filter(is.na(date))
+  dplyr::filter(is.na(date_parsed))
 
 print(bad_dates_after) # should be empty
+
+# Replacing Original Date Column ---------------------------------------
+
+# Now we will replace the original `date` column with the parsed dates
+milk_df <- milk_df %>%
+  dplyr::select(-date) %>%
+  dplyr::rename(date = date_parsed)
 
 # Removing Time Component from Datetimes -------------------------------
 
