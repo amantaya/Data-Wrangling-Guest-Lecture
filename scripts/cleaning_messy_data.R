@@ -409,10 +409,12 @@ feed_intake_df <- feed_intake_df %>%
 
 # Using `exact = TRUE` prevents the parsing algorithm from guessing formats, which helps avoid ambiguities.
 
-feed_intake_df %>%
-  dplyr::arrange(cow_id, date_parsed) %>%
-  View()
+# Remove original date column and rename parsed column
+feed_intake_df <- feed_intake_df %>%
+  dplyr::select(-date) %>%
+  dplyr::rename(date = date_parsed)
 
+# Removing The Time Component ------------------------------------------
 
 # Strip to Date only (no time component)
 feed_intake_df <- feed_intake_df %>%
@@ -421,6 +423,7 @@ feed_intake_df <- feed_intake_df %>%
   )
 
 # Check for bad dates --------------------------------------------------
+
 bad_feed_dates <- feed_intake_df %>%
   dplyr::filter(is.na(date))
 
@@ -507,11 +510,30 @@ readr::write_csv(
 
 # Now that we both data sets are cleaned, we can join them together for analysis.
 
-combined_df <- dplyr::full_join(
+combined_df <- dplyr::inner_join(
   milk_df,
   feed_intake_df,
   by = c("cow_id", "date") # this specifies the common columns to join on
 )
+
+# `tidylog` provides helpful messages about the join operation
+# drop-in replacement for most `dplyr` functions
+# highly recommended for interactive data wrangling
+combined_df <- tidylog::inner_join(
+  milk_df,
+  feed_intake_df,
+  by = c("cow_id", "date")
+)
+
+View(combined_df)
+
+# Checking With Rows Weren't Matches -----------------------------------
+
+# Let's check which cow IDs and dates were not matched in the join operation.
+
+
+
+# Note on Join Types ----------------------------------------------------
 
 # I want to point out an important aspect of joining datasets: the choice of join type.
 
