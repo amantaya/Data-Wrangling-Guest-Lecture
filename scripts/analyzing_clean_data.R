@@ -33,10 +33,22 @@ dlookr::plot_outlier(combined_df)
 
 # 1. The dependent variable is continuous
 # 2. The observations are independent
-# 3. The dependent variable is approximately normally distributed for each group of the independent variable
+# 3. The dependent variable is approximately normally distributed for each group of the independent variable (T-Test is robust to moderate violations of normality)
 # 4. Homogeneity of variances (homoscedasticity)
 
 # If the data is not normally distributed, consider using a transformation (e.g., log, square root) or a non-parametric test (e.g., Mann-Whitney U test).
+
+# 1. Is our dependent variable continuous?
+# TRUE for milk_liters and fat_percent
+
+# 2. Are our observations independent?
+# FALSE if the same cows are measured multiple times such as in a repeated measures design.
+
+# 3. Is our dependent variable approximately normally distributed for each group of the independent variable?
+# Use dlookr::plot_normality() to check this assumption.
+
+# 4. Is there homogeneity of variances?
+# Plotting residuals can help assess this assumption.
 
 # Fitting a Two-Sample T-Test ------------------------------------------
 
