@@ -133,6 +133,7 @@ milk_df$`milk L`[outlier_indices_milk] <- milk_df$`milk L`[outlier_indices_milk]
 
 # First, randomly assign cows to a feed treatment (e.g., "silage" or "hay")
 set.seed(321)
+
 cow_treatment <- tibble(
   cow_ID = cow_ids,
   treatment = sample(c("silage", "hay"), size = length(cow_ids), replace = TRUE)
@@ -186,24 +187,44 @@ feed_df <- feed_df |>
       n(),
       mean = 20,
       sd = 3),
-    digit = 2),
-  # NOTE: the `Feed Type` column has inconsistent capitalization and spacing students will need to standardize these entries
-  `Feed Type` = sample(
-    c(
-      "silage",
-      " silage",
-      "silage ",
-      "corn silage",
-      "Silage",
-      "silge", # this is a deliberate typo to simulate messy data
-      "corn",
-      "Corn",
-      "hay",
-      "Hay",
-      " hay "),
-    size = n(),
-    replace = TRUE)
-)
+    digit = 2)
+    )
+
+# Join By Cow Treatment
+feed_df <- feed_df %>%
+  dplyr::left_join(cow_treatment, by = c("vid" = "cow_ID"))
+
+# Introduce some messy `Feed Type` entries
+
+feed_df <- feed_df %>%
+  dplyr::mutate(
+    # NOTE: the `Feed Type` column has inconsistent capitalization and spacing students will need to standardize these entries
+    `Feed Type` = ifelse(
+      treatment == "silage",
+      sample(
+        c(
+          "silage",
+          " silage",
+          "silage ",
+          "corn silage",
+          "Silage",
+          "silge", # this is a deliberate typo to simulate messy data
+        ),
+        size = n(),
+        replace = TRUE),
+      sample(
+        c(
+          "hay",
+          "Hay",
+          " hay "),
+        size = n(),
+        replace = TRUE)
+    )
+  )
+
+# Remove the treatment column as it's no longer needed
+feed_df <- feed_df %>%
+  dplyr::select(-treatment)
 
 # What cow IDs were generated?
 unique_ids_in_feed_df <-
