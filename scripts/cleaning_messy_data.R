@@ -282,8 +282,7 @@ dplyr::glimpse(milk_df)
 # I like to run a final data quality report to summarize the cleaned data
 # Just to be sure everything looks good
 
-# TODO: re-enable this line
-# dlookr::diagnose_paged_report(milk_df)
+dlookr::diagnose_paged_report(milk_df)
 
 # Save Cleaned Data ----------------------------------------------------
 
@@ -511,8 +510,7 @@ dplyr::glimpse(feed_intake_df)
 
 # Final Verification ---------------------------------------------------
 
-# TODO: re-enable this line
-# dlookr::diagnose_paged_report(feed_intake_df)
+dlookr::diagnose_paged_report(feed_intake_df)
 
 # Save Cleaned Feed Intake Data ----------------------------------------
 
