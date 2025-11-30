@@ -7,8 +7,7 @@ library("janitor") # for clean_names and get_dupes
 library("tidyr") # for drop_na
 library("lubridate") # for date parsing functions
 library("stringr") # for str_trim
-
-# library("tidylog") # this is optional but provides helpful messages when using dplyr functions. It 'masks' dplyr functions, meaning it takes precedence when both packages are loaded. I really like using this package when doing interactive data cleaning.
+library("tidylog") # this is optional but provides helpful messages when using dplyr functions. It 'masks' dplyr functions, meaning it takes precedence when both packages are loaded. I really like using this package when doing interactive data cleaning.
 
 # NOTE: I use the package::function() notation to be explicit about which package a function comes from.
 
@@ -432,6 +431,43 @@ dplyr::glimpse(feed_intake_df)
 readr::write_csv(
   feed_intake_df,
   here::here("data", "clean", "feed_intake_clean.csv")
+)
+
+# Joining Cleaned Datasets ---------------------------------------------
+
+# Now that we both data sets are cleaned, we can join them together for analysis.
+
+combined_df <- dplyr::inner_join(
+  milk_df,
+  feed_intake_df,
+  by = c("cow_id", "date") # this specifies the common columns to join on
+)
+
+# I want to point out an important aspect of joining datasets: the choice of join type.
+
+# Here, we used `inner_join()`, which keeps only rows with matching `cow_id` and `date` in both datasets. Anything that does not match will be dropped.
+
+# Depending on your analysis goals, you might choose a different type of join:
+
+# `left_join()`: keeps all rows from the left dataset (milk_df) and matches from the right (feed_intake_df). Non-matching rows will have NA for the right dataset's columns.
+
+# `right_join()`: keeps all rows from the right dataset and matches from the left.
+
+# `full_join()`: keeps all rows from both datasets, with NA for non-matching rows.
+
+# `dplyr::anti_join()`: keeps only rows from the left dataset that do not have a match in the right dataset. It is useful for identifying unmatched records.
+
+# The choice of join type can significantly impact your analysis, so choose wisely based on your data and research questions!
+
+# For Additional Information See: https://medium.com/double-pointer/mastering-the-4-types-of-sql-joins-a-beginner-friendly-guide-384c68936aff
+
+# I found the `tidylog` package helpful when working interactively with joins, as it provides informative messages about the number of rows before and after the join operation.
+
+# notice that all we changed was to use `tidylog::inner_join()` instead of `dplyr::inner_join()`
+combined_df <- tidylog::inner_join(
+  milk_df,
+  feed_intake_df,
+  by = c("cow_id", "date")
 )
 
 # Final Thoughts -------------------------------------------------------
