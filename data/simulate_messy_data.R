@@ -222,15 +222,19 @@ feed_df$date <- sapply(feed_df$date, function(d) {
 # Missing Values -------------------------------------------------------
 
 set.seed(90)
+
 missing_indices_feed <- sample(seq_len(nrow(feed_df)), size = 50)
+
 feed_df$`feed KG`[missing_indices_feed] <- NA
 
 # Duplicate Observations -----------------------------------------------
 
 set.seed(91)
-feed_df <- rbind(feed_df, feed_df[sample(1:nrow(feed_df),3), ])
 
-# Write to CSV
+feed_df <- rbind(feed_df, feed_df[sample(1:nrow(feed_df), 3), ])
+
+# Write to CSV ---------------------------------------------------------
+
 write.csv(feed_df, file = "data/raw/feed_intake.csv", row.names = FALSE)
 
 # End of `feed_intake.csv` Simulation ----------------------------------
