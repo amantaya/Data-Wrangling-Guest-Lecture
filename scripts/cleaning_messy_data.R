@@ -374,7 +374,7 @@ feed_intake_df <- feed_intake_df %>%
 # Verify that we removed duplicates
 duplicate_feed_rows_after <- janitor::get_dupes(feed_intake_df)
 
-print(duplicate_feed_rows_after)
+print(duplicate_feed_rows_after) # should be empty
 
 # Convert date column to Date type -------------------------------------
 
