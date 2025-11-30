@@ -175,8 +175,6 @@ feed_df <- expand.grid(
   date = all_dates
 )
 
-# FIXME: we need to ensure that cow IDs are assigned to the proper treatment groups
-
 # Simulate feed_intake.csv similarly
 feed_df <- feed_df |>
   as_tibble() |>
