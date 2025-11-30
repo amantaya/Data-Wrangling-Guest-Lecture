@@ -58,7 +58,6 @@ duplicate_rows <- janitor::get_dupes(milk_df)
 
 # Note: if there are no duplicate rows, `duplicate_rows` will be an empty tibble
 
-# View duplicate rows
 print(duplicate_rows)
 
 # OR
