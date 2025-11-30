@@ -476,12 +476,6 @@ combined_df <- dplyr::full_join(
   by = c("cow_id", "date") # this specifies the common columns to join on
 )
 
-View(milk_df[637, ])
-
-feed_intake_df |>
-  dplyr::filter(cow_id == "J6910" & date == as.Date("2024-09-22")) |>
-  View()
-
 # I want to point out an important aspect of joining datasets: the choice of join type.
 
 # Here, we used `inner_join()`, which keeps only rows with matching `cow_id` and `date` in both datasets. Anything that does not match will be dropped.
