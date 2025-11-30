@@ -580,8 +580,6 @@ rows_not_matched_in_feed <-
 
 View(rows_not_matched_in_feed)
 
-# TODO: it looks like there are still some bad dates in milk_df
-
 # Which rows in feed_intake_df were not matched in milk_df?
 rows_not_matched_in_milk <-
   dplyr::anti_join(
