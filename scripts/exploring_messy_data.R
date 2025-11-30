@@ -43,12 +43,6 @@ View(messy_milk_data_tb)
 # Better - concise overview of the data structure
 dplyr::glimpse(messy_milk_data_tb) # Includes data types and a preview of data
 
-# TODO: separate into separate sections
-# Section 1: viewing the data structure
-
-# Section 2: summary statistics, missing values, etc.
-# Introduce dlookr functions for data exploration
-
 # Great - summary statistics for each variable
 dlookr::describe(messy_milk_data_tb)
 
