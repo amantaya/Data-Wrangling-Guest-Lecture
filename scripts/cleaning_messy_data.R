@@ -259,6 +259,61 @@ milk_df <- milk_df %>%
 print(head(milk_df, 10)) # should show the earliest dates at the top
 print(tail(milk_df, 10)) # should show the latest dates at the bottom
 
+# Identifying and Handling Outliers ------------------------------------
+
+# Outliers can be tricky to handle and require careful consideration.
+
+# Our friend `dlookr` provides a function to help visualize outliers easily.
+
+dlookr::diagnose_outlier(milk_df)
+
+# Both the `milk_liters` and `fat_percent` variables appear to have outliers.
+
+# The `plot_outlier()` function shows the effect of outliers on the mean and distribution of a variable.
+dlookr::plot_outlier(milk_df)
+
+# Let's have a closer look at the outliers in `milk_liters`
+
+milk_Liters_outliers <- tibble(value =
+  boxplot.stats(milk_df$milk_liters)$out) |>
+  dplyr::arrange(value)
+
+View(milk_Liters_outliers)
+
+# There are some truly extreme values here (e.g., 91.47, 92.44) which are likely data entry errors.
+
+# And let's do the same for `fat_percent`
+fat_percent_outliers <- tibble(value =
+  boxplot.stats(milk_df$fat_percent)$out) |>
+  dplyr::arrange(value)
+
+View(fat_percent_outliers)
+
+# These values all seem reasonable and should remain in the dataset.
+
+# Ask yourself:
+
+# Are the outliers legitimate values or data entry errors?
+
+# If they are data entry errors, how should I handle them?
+
+# If they are legitimate values, do I need to use a non-parametric test for my analyses?
+
+# For this example, we will assume that any `milk_liters` value greater than 60 is a data entry error
+
+# This is a judgement call on your part based on your understanding of the data and context.
+
+# Be sure to disclose your decisions and reasoning in any reports or publications.
+
+milk_df <- milk_df %>%
+  dplyr::filter(milk_liters <= 60)
+
+# Let's visualize the data again to verify that the outliers have been removed
+
+dlookr::diagnose_outlier(milk_df)
+
+dlookr::plot_outlier(milk_df)
+
 # Verifying Column Data Types ------------------------------------------
 
 # Finally, let's verify that all column data types are appropriate
