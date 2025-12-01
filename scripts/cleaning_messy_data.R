@@ -552,6 +552,22 @@ print(unique_feed_types)
 
 # Perfect! Now the `feed_type` column is consistent and we only have two types: "Hay" and "Silage".
 
+# Identifying and Handling Outliers ------------------------------------
+
+# Let's check for outliers in the `feed_kg` column
+
+dlookr::diagnose_outlier(feed_intake_df)
+
+dlookr::plot_outlier(feed_intake_df)
+
+feed_kg_outliers <- tibble(value =
+  boxplot.stats(feed_intake_df$feed_kg)$out) |>
+  dplyr::arrange(value)
+
+View(feed_kg_outliers)
+
+# These values seem legitimate and should remain in the dataset.
+
 # Final Verification of Data Types ------------------------------------
 
 dplyr::glimpse(feed_intake_df)
